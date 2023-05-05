@@ -1,0 +1,19 @@
+essential:-
+	- create account
+	- create offers (text only) 
+	- buy product (mark as sold)
+
+necessary:-
+	- search for products
+	- different categories 
+
+	- different sorting criterias for results
+		* price low to high
+		* price high to low
+		* customer satisfaction ratio
+		* newest arrivals
+
+nice to have:- 
+	- awards for selling lot of products
+	- customer satisfaction ratio
+	- dont show full information about the sellers prior to buying from them (like personal information)
