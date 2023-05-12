@@ -1,4 +1,4 @@
-{% extends 'accessLayout.html'%}
+{% extends 'auth/authLayout.html'%}
 
 {% block heading%}
 	<h1 class="fw-bold mb-0 fs-2">Login</h1>
@@ -8,7 +8,7 @@
 	<button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Login</button>
 	<script>
 	    var form = document.getElementById("extended_form");
-	    var actionUrl = "/login"; //set the action URL dynamically here
+	    var actionUrl = "/auth/login"; //set the action URL dynamically here
 	    form.action = actionUrl;
 	</script>
 {% endblock %} 

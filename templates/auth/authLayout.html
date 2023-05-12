@@ -1,6 +1,8 @@
 {%include 'bootstrap.html'%}
 <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
   <div class="modal-dialog" role="document">
+    {% block alert %}
+    {% endblock %}
     <div class="modal-content rounded-4 shadow">
       <div class="modal-header p-5 pb-4 border-bottom-0">
         {% block heading %}
@@ -13,8 +15,8 @@
           {% block content %}
           {% endblock %}  
           <div class="form-floating mb-3">
-            <input type="email" class="form-control rounded-3" name="email" id="floatingEmail" placeholder="name@example.com">
-            <label for="floatingEmail">Email address</label>
+            <input type="text" class="form-control rounded-3" name="username" id="floatingUsername" placeholder="abcd123">
+            <label for="floatingUsername">Username</label>
           </div>
           <div class="form-floating mb-3">
             <input type="password" class="form-control rounded-3" name="password" id="floatingPassword" placeholder="Password">
