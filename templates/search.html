@@ -1,0 +1,10 @@
+{% extends "layout.html"%}
+{% block content %}
+	<br/>
+	{%include 'dropdown.html'%}
+	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+		{%for product in products%}
+			{%include 'products/productCards.html'%}
+		{%endfor%}
+	</div>
+{% endblock %}
