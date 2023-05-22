@@ -1,6 +1,27 @@
 # ISEE Ecommerce Project - Pycoders Team
+Week 1 - Commit 1 
+Frontend layout
+- Home Page
+- Product Details Page
+- SignUp and Login Page
+
+Backend
+- Code to access DB layer
+- Working on 'create account ' feature
+
+Week 2 - Commit 2 
+Implemented
+- backend code for searching
+- backend code for the product details page
+- Modified daolayer
+- working more login and filter (&dropdown menu)
 
 
+Week 3 - Commit 3 
+Implemented 
+- Sorting for price 
+- Login & Signup
+- Slight code modifications 
 
 ## Getting started
 

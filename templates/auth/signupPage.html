@@ -1,12 +1,15 @@
 {% extends 'auth/authLayout.html'%}
 
+{%block title%}
+	<title>SignUp</title>
+{%endblock title%}
+
 {% block alert %}
-	{% if user_exists == True %}
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-          User already exists. Please click <a href="auth/login"  class="alert-link">here</a> to login.
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-	{% endif%}
+	{% for message in get_flashed_messages() %}
+    	<div class="alert alert-danger alert-dismissible fade show">	{{ message }} Please click 
+    		<a href="/auth/login" class="alert-link">here</a> to login.
+    	</div>
+  	{% endfor %}
 {% endblock%}
 
 {% block heading%}
@@ -29,9 +32,19 @@
 	
 	<small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
 	<script>
+	    // set the action URL dynamically here
 	    var form = document.getElementById("extended_form");
-	    var actionUrl = "/auth/signup"; //set the action URL dynamically here
+	    var actionUrl = "/auth/signup"; 
 	    form.action = actionUrl;
+	    
+	    // Autofill username based on email address
+	    const emailEle = document.getElementById("floatingEmail")
+	    console.log(emailEle)
+	    emailEle.addEventListener('input', function(){
+	    	console.log('test')
+	    	let user = emailEle.value.split('@')[0]
+	    	document.getElementById('floatingUsername').value = user
+	    })
 	</script>
 {% endblock %} 
 

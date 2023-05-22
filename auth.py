@@ -10,6 +10,7 @@ from flask import session
 from flask import url_for
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
+from sqlalchemy.exc import IntegrityError
 
 from daolayer.SQLReadWrite import SQLReadWrite
 
@@ -36,8 +37,8 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        with SQLReadWrite.engine.connect as conn:
-            result = conn.execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+        with SQLReadWrite.engine.connect() as conn:
+            result = conn.execute("SELECT * FROM users WHERE id = %s", (user_id,)).fetchone()
         g.user = (result)
         # g.user = (
         #     get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
@@ -50,36 +51,36 @@ def register():
     password for security.
     """
     if request.method == "POST":
+        name = request.form['name']
+        email = request.form['email']
         username = request.form["username"]
         password = request.form["password"]
         # db = get_db()
-        error = None
+       
+        try:
+            # db.execute(
+            #     "INSERT INTO user (username, password) VALUES (?, ?)",
+            #     (username, generate_password_hash(password)),
+            # )
+            SQLReadWrite.execute_query(
+                "INSERT INTO users (name,username, password, email) VALUES (%s, %s, %s, %s)",
+                (name,username, generate_password_hash(password),email))
 
-        if not username:
-            error = "Username is required."
-        elif not password:
-            error = "Password is required."
-
-        if error is None:
-            try:
-                # db.execute(
-                #     "INSERT INTO user (username, password) VALUES (?, ?)",
-                #     (username, generate_password_hash(password)),
-                # )
-                with SQLReadWrite.engine.connect as conn:
-                    conn.execute(
-                        "INSERT INTO user (username, password) VALUES (?, ?)",
-                        (username, generate_password_hash(password)),
-                )
-                # db.commit()
-            # except db.IntegrityError:
-            except exception:
-                # The username was already taken, which caused the
-                # commit to fail. Show a validation error.
-                error = f"User {username} is already registered."
-            else:
-                # Success, go to the login page.
-                return redirect(url_for("auth.login"))
+            # with SQLReadWrite.engine.connect() as conn:
+            #     conn.execute(
+            #         "INSERT INTO user (username, password) VALUES (?, ?)",
+            #         (username, generate_password_hash(password)),
+            # )
+            # db.commit()
+        # except db.IntegrityError:
+        except IntegrityError:
+            
+            # The username was already taken, which caused the
+            # commit to fail. Show a validation error.
+            error = f"User {username} or Email: {email} is already registered."
+        else:
+            # Success, go to the login page.
+            return redirect(url_for("auth.login"))
 
         flash(error)
 
@@ -97,20 +98,20 @@ def login():
         # user = db.execute(
         #     "SELECT * FROM user WHERE username = ?", (username,)
         # ).fetchone()
-        with SQLReadWrite.engine.connect() as conn:
-            conn.execute("SELECT * FROM user WHERE username = ?", 
-                (username,)).fetchone()
-
+        user = SQLReadWrite.execute_query("SELECT * FROM users WHERE username = %s",
+            (username,))
+        print(username)
+        print('User----------------',user)
         if user is None:
             error = "Incorrect username."
-        elif not check_password_hash(user["password"], password):
+        elif not check_password_hash(user[0]["password"], password):
             error = "Incorrect password."
 
         if error is None:
             # store the user id in a new session and return to the index
             session.clear()
-            session["user_id"] = user["id"]
-            return redirect(url_for("home"))
+            session["user_id"] = user[0]["id"]
+            return redirect(url_for("get_home_page"))
 
         flash(error)
 
