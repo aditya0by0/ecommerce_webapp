@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
+
 from daolayer.SQLReadWrite import SQLReadWrite
 import auth
 
@@ -8,7 +9,11 @@ app.secret_key = 'isee_project_ecomm'
 
 @app.route("/", methods=['GET'])
 def get_home_page():
-	return render_template("home.html")
+	print(g.user)
+	user_name = None
+	if g.user : 
+		user_name = g.user['username']
+	return render_template("home.html", user_signed=user_name)
 
 @app.route("/product/<p_id>", methods=['GET'])
 def get_product_page(p_id):

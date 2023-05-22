@@ -39,10 +39,7 @@ def load_logged_in_user():
     else:
         with SQLReadWrite.engine.connect() as conn:
             result = conn.execute("SELECT * FROM users WHERE id = %s", (user_id,)).fetchone()
-        g.user = (result)
-        # g.user = (
-        #     get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
-        # )
+        g.user = result
 
 @bp.route("/signup", methods=("GET", "POST"))
 def register():
@@ -55,31 +52,19 @@ def register():
         email = request.form['email']
         username = request.form["username"]
         password = request.form["password"]
-        # db = get_db()
        
         try:
-            # db.execute(
-            #     "INSERT INTO user (username, password) VALUES (?, ?)",
-            #     (username, generate_password_hash(password)),
-            # )
             SQLReadWrite.execute_query(
                 "INSERT INTO users (name,username, password, email) VALUES (%s, %s, %s, %s)",
-                (name,username, generate_password_hash(password),email))
+                (name,username, generate_password_hash(password),email), True)
 
-            # with SQLReadWrite.engine.connect() as conn:
-            #     conn.execute(
-            #         "INSERT INTO user (username, password) VALUES (?, ?)",
-            #         (username, generate_password_hash(password)),
-            # )
-            # db.commit()
-        # except db.IntegrityError:
         except IntegrityError:
-            
-            # The username was already taken, which caused the
+            # The username/email was already taken, which caused the
             # commit to fail. Show a validation error.
             error = f"User {username} or Email: {email} is already registered."
         else:
             # Success, go to the login page.
+            flash('Account created successfully. Please Login.', 'success')
             return redirect(url_for("auth.login"))
 
         flash(error)
@@ -100,8 +85,7 @@ def login():
         # ).fetchone()
         user = SQLReadWrite.execute_query("SELECT * FROM users WHERE username = %s",
             (username,))
-        print(username)
-        print('User----------------',user)
+        
         if user is None:
             error = "Incorrect username."
         elif not check_password_hash(user[0]["password"], password):
@@ -111,6 +95,7 @@ def login():
             # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user[0]["id"]
+
             return redirect(url_for("get_home_page"))
 
         flash(error)
@@ -122,4 +107,4 @@ def login():
 def logout():
     """Clear the current session, including the stored user id."""
     session.clear()
-    return redirect(url_for("home"))
+    return redirect(url_for("get_home_page"))

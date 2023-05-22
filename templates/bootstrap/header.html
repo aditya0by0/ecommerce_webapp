@@ -18,15 +18,23 @@
           <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search" name='searched'>
         </form>
         
-
-        <div class="text-end">
-          <a href="/auth/login">
-            <button type="button" class="btn btn-outline-light me-2">Login</button>
-          </a>
-          <a href="/auth/signup">
-            <button type="button" class="btn btn-warning">Sign-up</button>
-          </a>
-        </div>
+        {%if user_signed%}
+           <div class="text-end">
+            <span>{{user_signed}}&nbsp;</span>
+            <a href="/auth/logout">
+              <button type="button" class="btn btn-warning">Logout</button>
+            </a>
+          </div>
+        {%else%}
+          <div class="text-end">
+            <a href="/auth/login">
+              <button type="button" class="btn btn-outline-light me-2">Login</button>
+            </a>
+            <a href="/auth/signup">
+              <button type="button" class="btn btn-warning">Sign-up</button>
+            </a>
+          </div>
+        {%endif%}
       </div>
     </div>
   </header>

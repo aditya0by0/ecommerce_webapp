@@ -1,0 +1,14 @@
+.productTag {
+  position: relative;
+}
+
+.sold-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: white;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}

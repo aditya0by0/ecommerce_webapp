@@ -1,8 +1,15 @@
 {% extends 'layout.html'%}
+{%block css%}
+    <script href="/static/css/soldTag.css"></script>
+{%endblock%}
+
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6" id='b_image'>
+        <div class="col-md-6 productTag" id='b_image'>
+            {%if product.sold == '1'%}
+                <span class="sold-tag">SOLD</span>
+            {%endif%}
             <img src="/static/images/products/{{product.pCode}}" alt="test" width="400px">
         </div>
         <div class="col-md-6">
@@ -10,12 +17,17 @@
             <hr>
             
             <p>Price: &euro;{{product.price}}</p>
+            <p>Product Date : {{product.pdate}}</p>
             <strong>About this item:</strong>
             <ul>
                 {% for line in product.pdescription.split('\n')%}
                     <li>{{line}}</li>
                 {%endfor%}
             </ul>
+            {% if product.sold != '1'%}
+                <button type="button" class="btn btn-primary btn-lg">Buy Now</button>
+                <button type="button" class="btn btn-secondary btn-lg">Add to cart</button>
+            {%endif%}
         </div>
     </div>
 </div>

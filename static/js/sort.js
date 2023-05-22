@@ -22,6 +22,10 @@ function sort(sortBy){
 					return priceB - priceA
 					break;
 			}
+		}else if (sortBy =='nwa') {
+				const dateA = parseInt(a.querySelector(".labelDate").getAttribute('data-date'));
+				const dateB = parseInt(b.querySelector(".labelDate").getAttribute('data-date'));
+				return dateB - dateA;
 
  		}
  		// else if (condition) {
