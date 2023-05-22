@@ -1,13 +1,14 @@
-<div class="col">
+<div class="col proCard">
   <a href="product/{{product.pid}}">
     <div class="card shadow-sm">
-        <img class="bd-placeholder-img card-img-top" src="/static/images/products/{{product.pCode}}" alt="Placeholder: Thumbnail" height="225">
+      <img class="bd-placeholder-img card-img-top" src="/static/images/products/{{product.pCode}}" alt="Placeholder: Thumbnail" height="225">
 
-        <div class="card-body ">
-          <p class="card-text">{{product.pName}}</p>  
+      <div class="card-body ">
+        <p class="card-text">{{product.pName}}</p>
+        <div class="labelPrice" data-price = {{product.price}} >  
           <small class="text-body-secondary">&euro;{{product.price}}</small>
-          
         </div>
       </div>
+    </div>
   </a>
 </div>

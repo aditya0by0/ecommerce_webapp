@@ -6,7 +6,8 @@ drop table if exists user;
 create table users (
   id int primary key auto_increment,
   username varchar(15) unique not null,
-  password varchar(15) not null
+  password text not null,
+  email varchar(100) not null
 );
 
 drop table if exists products;

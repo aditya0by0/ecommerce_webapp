@@ -4,12 +4,13 @@ import auth
 
 app = Flask(__name__, template_folder='templates')
 app.register_blueprint(auth.bp)
+app.secret_key = 'isee_project_ecomm'
 
 @app.route("/", methods=['GET'])
 def get_home_page():
 	return render_template("home.html")
 
-@app.route("/product/<p_id>", methods=['POST'])
+@app.route("/product/<p_id>", methods=['GET'])
 def get_product_page(p_id):
 	with SQLReadWrite.engine.connect() as conn:
 		result = conn.execute('SELECT * from products where pid=%s', (p_id,))
@@ -25,6 +26,9 @@ def search():
 	result_dict = [dict(row) for row in result.all()]
 	return render_template('search.html', searched=searched , products = result_dict)
 
+@app.route("/test")
+def test():
+	return render_template('bootstrap/checkout.html')
 
 
 if __name__ == "__main__":
