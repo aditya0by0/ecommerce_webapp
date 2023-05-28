@@ -7,7 +7,7 @@
 {% block alert %}
 	{% for message in get_flashed_messages() %}
     	<div class="alert alert-danger alert-dismissible fade show">	{{ message }} Please click 
-    		<a href="/auth/login" class="alert-link">here</a> to login.
+    		<a href="/auth/login" class="alert-link" style="pointer-events: auto;">here</a> to login.
     	</div>
   	{% endfor %}
 {% endblock%}
@@ -27,24 +27,31 @@
 	</div>
 {% endblock %}
 
-{% block button %}
+{% block extraInputs %}
+	<div class="mb-3">
+	  <label class="list-group-item d-flex gap-2">
+	    <input class="form-check-input flex-shrink-0" type="checkbox" value="" name='chkbx-seller' id="seller" onclick="toggleInputRequired()">
+	    <span>Sign Up as Seller</span>
+	  </label>
+	</div>
+
+	<div class="form-floating mb-3" style="display: none;" id="divAddress">
+	  <input type="text" class="form-control rounded-3" name="b-address" id="floatingAddress" placeholder="Universitätspl. 2, 39106 Magdeburg, Germany" >
+	  <label for="floatingAddress">Business Address</label>
+	</div>
+
 	<button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
-	
+
 	<small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+	
 	<script>
 	    // set the action URL dynamically here
 	    var form = document.getElementById("extended_form");
 	    var actionUrl = "/auth/signup"; 
 	    form.action = actionUrl;
-	    
-	    // Autofill username based on email address
-	    const emailEle = document.getElementById("floatingEmail")
-	    console.log(emailEle)
-	    emailEle.addEventListener('input', function(){
-	    	console.log('test')
-	    	let user = emailEle.value.split('@')[0]
-	    	document.getElementById('floatingUsername').value = user
-	    })
 	</script>
+
+	<script src="/static/js/autofillUsername.js"></script>
+	<script src="/static/js/toggleSignUpForm.js"></script>
 {% endblock %} 
 

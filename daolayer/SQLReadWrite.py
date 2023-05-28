@@ -1,6 +1,7 @@
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 from flask import flash
 import os 
+from sqlalchemy.exc import IntegrityError
 
 class SQLReadWrite:
 	
@@ -11,15 +12,24 @@ class SQLReadWrite:
 	engine = create_engine(f'mysql+pymysql://{username}:{password}@{host}/{database}')
 
 	@staticmethod
-	def execute_query(query, p_tuple=()):
+	def execute_query(query, p_tuple=(), put_op = False):
 		try:
 			with SQLReadWrite.engine.connect() as conn:
-				result = conn.execute(query, p_tuple)
+				if put_op:
+				 	conn.execute(query, p_tuple)
+				else: 
+					result = conn.execute(query, p_tuple)
+
+			if put_op : return None
+			
 			list_ =  [dict(row) for row in result.all()]
+			
 			if len(list_) != 0:
 				return list_
-			else : 
-				return None
-		
+			return None
+
+		except IntegrityError as ie:
+			raise ie
+
 		except Exception as e:
-			flash(e)
+			flash(str(e))

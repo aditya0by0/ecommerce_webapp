@@ -15,7 +15,13 @@
 	<h1 class="fw-bold mb-0 fs-2">Login</h1>
 {% endblock %}
 
-{% block button %}
+{% block extraInputs %}
+	<div class="mb-3">
+      <label class="list-group-item d-flex gap-2">
+        <input class="form-check-input flex-shrink-0" type="checkbox" value="" name='chkbx-seller' >
+        <span>Login as Seller</span>
+      </label>
+     </div>
 	<button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Login</button>
 	<script>
 	    var form = document.getElementById("extended_form");
