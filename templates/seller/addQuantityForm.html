@@ -1,0 +1,13 @@
+<form method="POST" id="addQtyForm" action="/seller/add-quantity/{{product.pid}}">
+  <div class="row">
+    <div class="col-3">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control rounded-3" name="quantity" id="input-quantity" placeholder="abcd123" style="height: 50px;">
+        <label for="floatingUsername">Enter a number</label>
+      </div>
+    </div>
+    <div class="col-4">
+      <button id="addQtyBtn" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" disabled>Add Quantity</button>
+    </div>
+  </div>
+</form>

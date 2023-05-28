@@ -1,0 +1,42 @@
+{% extends 'layout.html'%}
+
+{%block css%}
+	    <link rel="stylesheet" href="/static/css/productCard.css">
+{%endblock%}
+
+{% block alert %}
+	{% for message in get_flashed_messages() %}
+    	<div class="alert alert-info alert-dismissible fade show">	{{ message }}
+    	</div>
+  	{% endfor %}
+{% endblock%}
+
+
+{%block content%}
+	<div class="d-flex justify-content-center align-items-center p-3 my-3 rounded shadow-sm" style="height: 80px; overflow: auto;">
+	  <div class="row">
+	    <div class="col-6 text-center">
+	      <h1>Your Products</h1>
+	    </div>
+	    <div class="col-3 text-center">
+	      <button class="btn btn-lg rounded-3 btn-primary" type="submit" style="position: absolute; right: 0;">Add Product</button>
+	    </div>
+	  </div>
+	</div>
+
+    {%for category,group in grouped_products%}
+    	<div class="container px-4 py-5" id="custom-cards">
+	    	<h2 class="pb-2 border-bottom">{{category}}</h2>
+	    	<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+	    		{%for product in group%}
+	    			{%include 'seller/productCard.html'%}
+	    		{%endfor%}
+    		</div>
+    	</div>
+    {%endfor%}
+
+{%endblock%}
+
+{% block js%}
+	<script type="text/javascript" src="/static/js/assignRoute2Card.js"></script>
+{% endblock%}

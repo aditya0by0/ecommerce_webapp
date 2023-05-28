@@ -8,8 +8,10 @@ from flask import render_template
 from flask import request
 from flask import session
 from flask import url_for
+
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
+
 from sqlalchemy.exc import IntegrityError
 
 from daolayer.SQLReadWrite import SQLReadWrite
@@ -54,11 +56,17 @@ def register():
         password = request.form["password"]
        
         try:
-            SQLReadWrite.execute_query(
-                "INSERT INTO users (name,username, password, email) VALUES (%s, %s, %s, %s)",
-                (name,username, generate_password_hash(password),email), True)
 
-        except IntegrityError:
+            if 'chkbx-seller' not in request.form:
+                SQLReadWrite.execute_query(
+                    "INSERT INTO users (name,username, password, email) VALUES (%s, %s, %s, %s)",
+                    (name,username, generate_password_hash(password),email), True)
+            else : 
+                b_address = request.form['b-address']
+                SQLReadWrite.execute_query(
+                    "INSERT INTO sellers (name, username, password, email, address) VALUES (%s, %s, %s, %s, %s)",
+                    (name,username, generate_password_hash(password),email, b_address), True)
+        except IntegrityError as e:
             # The username/email was already taken, which caused the
             # commit to fail. Show a validation error.
             error = f"User {username} or Email: {email} is already registered."
@@ -77,13 +85,13 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        # db = get_db()
         error = None
         
-        # user = db.execute(
-        #     "SELECT * FROM user WHERE username = ?", (username,)
-        # ).fetchone()
-        user = SQLReadWrite.execute_query("SELECT * FROM users WHERE username = %s",
+        if 'chkbx-seller' not in request.form:
+            user = SQLReadWrite.execute_query("SELECT * FROM users WHERE username = %s",
+            (username,))
+        else:
+            user = SQLReadWrite.execute_query("SELECT * FROM sellers WHERE username = %s",
             (username,))
         
         if user is None:
@@ -95,6 +103,9 @@ def login():
             # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user[0]["id"]
+
+            if 'chkbx-seller'in request.form:
+                return redirect(url_for('seller.show_seller_page', sid=session["user_id"]))
 
             return redirect(url_for("get_home_page"))
 

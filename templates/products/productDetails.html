@@ -1,22 +1,31 @@
 {% extends 'layout.html'%}
 {%block css%}
-    <script href="/static/css/soldTag.css"></script>
+    <link rel="stylesheet" href="/static/css/soldTag.css">
 {%endblock%}
 
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6 productTag" id='b_image'>
-            {%if product.sold == '1'%}
-                <span class="sold-tag">SOLD</span>
-            {%endif%}
-            <img src="/static/images/products/{{product.pCode}}" alt="test" width="400px">
+        <div class="col-md-6" id='b_image'>
+            <div class="productTag">   
+                <img src="/static/images/products/{{product.pCode}}" alt="test" width="400px">
+                {%if product.sold == '1'%}
+                    <span class="sold-tag">SOLD</span>
+                {%endif%}
+            </div>
         </div>
         <div class="col-md-6">
             <h4>{{product.pName}}</h4>
             <hr>
-            
-            <p>Price: &euro;{{product.price}}</p>
+                {%if product.offerPrice != 0.0%}
+                    <p>
+                      <span style="text-decoration: line-through;">Price: &euro;{{product.price}}</span>
+                      <span>&nbsp;Offer Price: &euro;{{product.offerPrice}} </span>
+                    </p>
+                {%else%}
+                    <p>Price: &euro;{{product.price}} </p>
+                {%endif%}
+            <p>Quantity : {{product.quantity}}</p>
             <p>Product Date : {{product.pdate}}</p>
             <strong>About this item:</strong>
             <ul>
@@ -25,8 +34,12 @@
                 {%endfor%}
             </ul>
             {% if product.sold != '1'%}
-                <button type="button" class="btn btn-primary btn-lg">Buy Now</button>
-                <button type="button" class="btn btn-secondary btn-lg">Add to cart</button>
+                <a href="/buy/{{product.pid}}">
+                    <button type="button" class="btn btn-primary btn-lg">Buy Now</button>
+                </a>
+                <a href="/add2Cart">
+                    <button type="button" class="btn btn-secondary btn-lg">Add to cart</button>
+                </a>
             {%endif%}
         </div>
     </div>

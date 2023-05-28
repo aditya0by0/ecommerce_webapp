@@ -1,0 +1,5 @@
+.card-image {
+  background-size: cover; /* Scale the background image to cover the entire element */
+  background-position: center; /* Center the background image within the element */
+  background-repeat: no-repeat; /* Prevent the background image from repeating */
+}

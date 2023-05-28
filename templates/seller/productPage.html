@@ -1,0 +1,58 @@
+{% extends 'layout.html'%}
+{%block css%}
+    <link rel="stylesheet" href="/static/css/soldTag.css">
+{%endblock%}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6" id='b_image'>
+            <div class="productTag">   
+                <img src="/static/images/products/{{product.pCode}}" alt="test" width="400px">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>{{product.pName}}</h4>
+            <hr>
+            
+            <!-- <p data-price={{product.price}}>Price: &euro;{{product.price}}</p> -->
+
+            {%if product.offerPrice != 0.0%}
+                <p data-price={{product.price}}>
+                  <span style="text-decoration: line-through;">Price: &euro;{{product.price}}</span>
+                  <span>&nbsp;Offer Price: &euro;{{product.offerPrice}} </span>
+                </p>
+            {%else%}
+                <p data-price={{product.price}}>Price: &euro;{{product.price}} </p>
+            {%endif%}
+
+            <p id="offer-price" style="display: none; color: #00008B;">Tentative Offer Price : &euro; 
+              <span id="offerPriceInt"></span>
+            </p>
+            <p data-quantity={{product.quantity}}>Quantity: {{product.quantity}}
+            </p>
+            <p id="display-quantity" style="display: none; color: #00008B;">Tentative New Quantity: 
+              <span id="new-quantity-val"></span>
+            </p>
+
+
+            <p>Product Date : {{product.pdate}}</p>
+            <strong>About this item:</strong>
+            <ul>
+                {% for line in product.pdescription.split('\n')%}
+                    <li>{{line}}</li>
+                {%endfor%}
+            </ul>
+            
+            {%include 'seller/createOfferForm.html'%}
+            {%include 'seller/addQuantityForm.html'%}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js%}
+  <script type="text/javascript" src="/static/js/validateSellerInput.js"></script>
+{% endblock%}
