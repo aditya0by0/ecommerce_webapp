@@ -13,6 +13,10 @@ class SQLReadWrite:
 
 	@staticmethod
 	def execute_query(query, p_tuple=(), put_op = False):
+		'''
+		Put operation = True : Only for INSERT/UPDATE/DELETE queries
+		Put operation = False : Only for READ queries
+		'''
 		try:
 			with SQLReadWrite.engine.connect() as conn:
 				if put_op:

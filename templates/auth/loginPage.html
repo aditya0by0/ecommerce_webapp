@@ -6,7 +6,7 @@
 
 {% block alert %}
 	{% for message in get_flashed_messages() %}
-    	<div class="alert alert-danger alert-dismissible fade show">	{{ message }}
+    	<div class="alert alert-info alert-dismissible fade show">	{{ message }}
     	</div>
   	{% endfor %}
 {% endblock%}

@@ -18,11 +18,6 @@ offerForm.addEventListener('submit', addOfferPrice2Form);
 function validateInputPrice(e) {
   var inputValue = e.target.value;
 
-  if (!/^[0-9]*$/.test(inputValue)) {
-    inputValue = inputValue.replace(/[^0-9]/g, '');
-    e.target.value = inputValue;
-  }
-
   if (isNaN(inputValue) || inputValue < 1 || inputValue > 100) {
     e.target.value = ''; 
   }
@@ -43,11 +38,6 @@ function validateInputPrice(e) {
 
 function validateInputQuantity(e) {
   var inputValue = e.target.value;
-
-  if (!/^[0-9]*$/.test(inputValue)) {
-    inputValue = inputValue.replace(/[^0-9]/g, '');
-    e.target.value = inputValue;
-  }
 
   quantityEle.value += inputValue;
 

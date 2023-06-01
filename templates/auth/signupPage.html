@@ -6,7 +6,7 @@
 
 {% block alert %}
 	{% for message in get_flashed_messages() %}
-    	<div class="alert alert-danger alert-dismissible fade show">	{{ message }} Please click 
+    	<div class="alert alert-info alert-dismissible fade show">	{{ message }} Please click 
     		<a href="/auth/login" class="alert-link" style="pointer-events: auto;">here</a> to login.
     	</div>
   	{% endfor %}

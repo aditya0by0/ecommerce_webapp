@@ -8,8 +8,10 @@
 </head>
 <body>
 	{%include 'bootstrap/header.html'%}
-	{% block alert %}
-    {% endblock %}
+	{% for message in get_flashed_messages() %}
+    	<div class="alert alert-info alert-dismissible fade show">	{{ message }}
+    	</div>
+  	{% endfor %}
 	{% block content%}
 	{% endblock%}
 	{%include 'bootstrap/footer.html'%}

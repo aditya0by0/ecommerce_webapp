@@ -25,7 +25,7 @@
                 {%else%}
                     <p>Price: &euro;{{product.price}} </p>
                 {%endif%}
-            <p>Quantity : {{product.quantity}}</p>
+            <p class="quantity" data-quantity="{{product.quantity}}">Quantity : {{product.quantity}}</p>
             <p>Product Date : {{product.pdate}}</p>
             <strong>About this item:</strong>
             <ul>
@@ -34,15 +34,21 @@
                 {%endfor%}
             </ul>
             {% if product.sold != '1'%}
-                <a href="/buy/{{product.pid}}">
-                    <button type="button" class="btn btn-primary btn-lg">Buy Now</button>
-                </a>
-                <a href="/add2Cart">
-                    <button type="button" class="btn btn-secondary btn-lg">Add to cart</button>
-                </a>
+
+                <form method="POST" action="/user/buy-add-product/{{product.pid}}">
+                    <div class="form-floating mb-3 col-3">
+                      <input type="number" class="form-control rounded-3" name="quantity" id="input-quantity" style="height: 50px;">
+                      <label for="input-quantity">Enter Quantity</label>
+                      <span id="validationError" style="display: none; color: red;">Input value must be less than or equal to {{product.quantity}} and greater than 0</span>
+                    </div>
+                      <button type="submit" name="action" value="buyNow" class="btn btn-primary btn-lg" id="buyBtn"  disabled >Buy Now</button>                    
+                      <button type="submit" name="action" value="a2c" class="btn btn-secondary btn-lg" id="a2cBtn" disabled>Add to cart</button>
+                </form>
             {%endif%}
         </div>
     </div>
 </div>
-
-{% endblock %}
+{%endblock%}
+{% block js%}
+  <script type="text/javascript" src="/static/js/validateQuantity.js"></script>
+{% endblock%}

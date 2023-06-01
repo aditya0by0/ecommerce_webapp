@@ -1,0 +1,52 @@
+{% extends 'layout.html'%}
+{%block content%}
+	<div class="container my-5">
+	  <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
+	  	{%if products%}
+		    <div class="row g-5 d-flex justify-content-center align-items-center mb-3">
+		      <div class="col-md-6 col-lg-6 order-md-last">
+		        <h4 class="d-flex justify-content-between align-items-center mb-3">
+		          <span class="text-primary">Your cart</span>
+		          <span class="badge bg-primary rounded-pill">{{products|count}}</span>
+		        </h4>
+		        <ul class="list-group mb-3">
+		          {% for product in products%}
+		            <li class="list-group-item d-flex justify-content-between lh-sm">
+		              <div>
+		              	<a href="/product/{{product.pid}}">
+		                	<h6 class="my-0">{{product.pName}}</h6>
+		                </a>
+		                <small class="text-body-secondary">{{product.category}}</small>
+		              </div>
+		              <div>
+		                {%if product.offerPrice != 0.0%}
+		                  <h6 class="my-0">&euro;{{product.offerPrice}}</h6>
+		                {%else%}
+		                  <h6 class="my-0">&euro;{{product.price}}</h6>
+		                {%endif%}
+		                <small class="text-body-secondary">Qty: {{product.p_quantity}}</small>
+		              </div>
+		              <div>
+		              	<a href="/user/delete-cart-item/{{product.pid}}">
+		              		<button class="btn btn-primary px-5 mb-5" type="button">Delete</button>
+		              	</a>
+		              </div>
+		            </li>
+		          {%endfor%}
+		          <li class="list-group-item d-flex justify-content-between" style="background: lightgrey;">
+		            <span>Total (USD)</span>
+		            <strong>&euro; {{total}}</strong>
+		          </li>
+		        </ul>
+		      </div>
+
+		    </div>
+		    <a href="/user/buy-cart">
+	        <button class="btn btn-primary px-5 mb-5" type="button">Buy All</button>
+	      </a>
+      {%else%}
+      	<h2>No items added to cart yet!</h2>
+      {%endif%}
+	  </div>
+	</div>
+{%endblock%}

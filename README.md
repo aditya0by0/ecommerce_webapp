@@ -30,6 +30,17 @@ Implemented
 - Add Quantity Seller
 - Fixes and Code Modifications/corrections
 
+Week 5 - Commit 5 
+Implemented 
+- Buy Product
+- Add to Cart
+- Delete from Cart
+- User History
+- Purchase Successfull Page
+- Fixed Username display issue on header
+- Add dropdown to this username for Cart and User History
+
+
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
