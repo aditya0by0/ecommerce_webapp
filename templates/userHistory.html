@@ -1,0 +1,35 @@
+{% extends 'layout.html'%}
+{%block content%}
+	<div class="container my-5">
+	  <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
+	  	{%if products%}
+		    <div class="row g-5 d-flex justify-content-center align-items-center mb-3">
+		      <div class="col-md-6 col-lg-6 order-md-last">
+		        <h4 class="d-flex justify-content-between align-items-center mb-3">
+		          <span style="color:black;">Your History</span>
+		        </h4>
+		        <ul class="list-group mb-3">
+		          {% for product in products%}
+		            <li class="list-group-item d-flex justify-content-between lh-sm">
+		              <div>
+		              	<a href="/product/{{product.pid}}">
+		                	<h6 class="my-0">{{product.pName}}</h6>
+		                </a>
+		                <small class="text-body-secondary">{{product.category}}</small>
+		              </div>
+		              <div>
+		                  <h6 class="my-0">Qty:  {{product.p_quantity}}</h6>
+		                  <small class="text-body-secondary">{{product.date_}}</small>
+		              </div>
+		            </li>
+		          {%endfor%}
+		        </ul>
+		      </div>
+		    </div>
+	      </a>
+      {%else%}
+      	<h2>Sorry, You have not Created a History yet!😂</h2>
+      {%endif%}
+	  </div>
+	</div>
+{%endblock%}

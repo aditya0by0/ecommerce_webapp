@@ -1,7 +1,16 @@
 {% extends "layout.html"%}
 {% block content %}
 	<br/>
-	{%include 'bootstrap/dropdown.html'%}
+	<div class="row">
+	  <div class="col-sm-9">
+	    <h5>You searched for "{{searched}}"</h5>
+	  </div>
+	  <div class="col-sm-3">
+	    <!-- Dropdown -->
+	    {%include '/bootstrap/sortDropdown.html'%}
+	  </div>
+	</div>
+
 	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 proGrid">
 		{%for product in products%}
 			{%include 'products/productCards.html'%}

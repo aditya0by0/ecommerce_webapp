@@ -4,14 +4,6 @@
 	    <link rel="stylesheet" href="/static/css/productCard.css">
 {%endblock%}
 
-{% block alert %}
-	{% for message in get_flashed_messages() %}
-    	<div class="alert alert-info alert-dismissible fade show">	{{ message }}
-    	</div>
-  	{% endfor %}
-{% endblock%}
-
-
 {%block content%}
 	<div class="d-flex justify-content-center align-items-center p-3 my-3 rounded shadow-sm" style="height: 80px; overflow: auto;">
 	  <div class="row">

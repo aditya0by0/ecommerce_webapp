@@ -1,0 +1,31 @@
+{% extends "layout.html"%}
+{% block content %}
+	<span class="curr-cat" data-currCat="{{ c_name }}"></span>
+	<div class="row align-items-center py-3">
+	  <div class="col-auto">
+	    <h5>Select Category :</h5>
+	  </div>
+	  <div class="col d-flex gap-3 ">
+	    {% for category in categories%}
+	    	<button class="btn btn-outline-primary rounded-pill px-3 category-button" type="button" data-category="{{ category.category}}" >{{category.category}}</button>
+	    {%endfor%}
+	  </div>
+	  <div class="col d-flex justify-content-end pr-5">
+	  	{%include '/bootstrap/sortDropdown.html'%}
+	  </div>
+	</div>
+
+	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 proGrid">
+		{%for product in products%}
+			{%include 'products/productCards.html'%}
+		{%endfor%}
+	</div>
+{% endblock %}
+
+{%block js%}
+	<script src="/static/js/sort.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script> -->
+
+	<script src="/static/js/toggleBtn.js"></script>
+
+{%endblock js%}
