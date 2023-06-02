@@ -1,4 +1,30 @@
 {% extends "layout.html"%}
+
+{%block css%}
+	<link rel="stylesheet" href="/static/css/product.css">
+	<style>	
+		.list-dp{
+			color: white; 
+			list-style-position: outside; 
+			list-style-type: none; 
+			padding-left: 20px;
+			font-size: 20px; 
+			line-height: 1.5;
+		}
+		.list-item{
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+	</style>
+{%endblock%}
+
 {% block content %}
 	{% include 'bootstrap/carousel.html'%}
 {% endblock %}
+
+{% block js%}
+	<script type="text/javascript">
+		const firstCarouselItem = document.querySelector(".carousel-item");
+		firstCarouselItem.classList.add('active');
+	</script>
+{% endblock%}

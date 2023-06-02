@@ -29,7 +29,9 @@
             {% for purchase,quantity in zip(purchases,p_quantities)%}
               <li class="list-group-item d-flex justify-content-between lh-sm">
                 <div>
-                  <h6 class="my-0">{{purchase.pName}}</h6>
+                  <a href="/product/{{purchase.pid}}">
+                    <h6 class="my-0">{{purchase.pName}}</h6>
+                  </a>
                   <small class="text-body-secondary">{{purchase.category}}</small>
                 </div>
                 <div>

@@ -1,5 +1,6 @@
 # ISEE Ecommerce Project - Pycoders Team
 Week 1 - Commit 1 
+<br/>Implemented
 Frontend layout
 - Home Page
 - Product Details Page
@@ -10,7 +11,7 @@ Backend
 - Working on 'create account ' feature
 
 Week 2 - Commit 2 
-Implemented
+<br/>Implemented
 - backend code for searching
 - backend code for the product details page
 - Modified daolayer
@@ -18,20 +19,20 @@ Implemented
 
 
 Week 3 - Commit 3 
-Implemented 
+<br/>Implemented 
 - Sorting for price 
 - Login & Signup
 - Slight code modifications 
 
 Week 4 - Commit 4 
-Implemented 
+<br/>Implemented 
 - Page for Sellers 
 - Create Offer Feature for seller
 - Add Quantity Seller
 - Fixes and Code Modifications/corrections
 
 Week 5 - Commit 5 
-Implemented 
+<br/>Implemented 
 - Buy Product
 - Add to Cart
 - Delete from Cart
@@ -39,6 +40,15 @@ Implemented
 - Purchase Successfull Page
 - Fixed Username display issue on header
 - Add dropdown to this username for Cart and User History
+
+Week 5 - Commit 6 
+<br/>Implemented 
+- Login Required functionality
+- User-Role Restriction
+- Home Page Template
+- Embedded Carousel in Home Page 
+- logic to show product of each category in the above carousel
+- Slight Fixes and Modifications
 
 
 ## Getting started

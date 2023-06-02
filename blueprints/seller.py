@@ -1,18 +1,37 @@
-from daolayer.SQLReadWrite import SQLReadWrite
-
-from itertools import groupby
 from flask import flash, get_flashed_messages
 from flask import Blueprint
 from flask import redirect
 from flask import render_template
 from flask import url_for
 from flask import request
+from flask import session
+from flask import g
 
+from itertools import groupby
+
+from daolayer.SQLReadWrite import SQLReadWrite
 
 bp = Blueprint("seller", __name__, url_prefix="/seller")
 
-@bp.route("/basePage/<int:sid>")
-def show_seller_page(sid:int):
+@bp.before_request
+def load_logged_in_seller():
+	seller_id = session.get("user_id")
+	if seller_id is None:
+		g.user = None
+		flash("Please, Login in with your Seller account")
+		return redirect(url_for("auth.login"))
+	else:
+		result = SQLReadWrite.execute_query("SELECT * FROM sellers WHERE id = %s", (seller_id,))
+		if result:
+			g.user = result[0]
+			g.user['role'] = 'Seller'
+		else :
+			flash("Please, Login in with your Seller account")
+			return redirect(url_for("auth.login"))
+
+@bp.route("/basePage")
+def show_seller_page():
+	sid = g.user['id']
 	result = SQLReadWrite.execute_query('''SELECT * FROM products where pid in (
 				SELECT pid from products_sellers where sid = %s)''',(sid,))
 	sorted_data = sorted(result, key=lambda x: x['category'])

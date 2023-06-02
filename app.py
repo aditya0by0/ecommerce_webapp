@@ -1,7 +1,13 @@
-from flask import Flask, render_template, request, g
-from flask import redirect, url_for
-from daolayer.SQLReadWrite import SQLReadWrite
+from flask import Flask
+from flask import render_template
+from flask import request
+from flask import g
+from flask import redirect
+from flask import url_for
 from flask import flash
+from flask import session
+
+from daolayer.SQLReadWrite import SQLReadWrite
 from blueprints import auth, seller, user
 
 app = Flask(__name__, template_folder='templates')
@@ -11,22 +17,40 @@ app.register_blueprint(user.bp)
 
 app.secret_key = 'isee_project_ecomm'
 
-# @app.before_request
-# def before_request():
-# 	auth.load_logged_in_user()
+@app.before_request
+def load_logged_in_user():
+    user_id = session.get("user_id")
+    role = session.get("role")
+    if user_id is None:
+        g.user = None
+    else:
+        if role == 'User':
+            result = SQLReadWrite.execute_query("SELECT * FROM users WHERE id = %s",
+             (user_id,))
+            g.user = result[0]
+            g.user['role'] = 'User'
+        
+        elif role == 'Seller':
+            result = SQLReadWrite.execute_query("SELECT * FROM sellers WHERE id = %s",
+             (user_id,))
+            g.user = result[0]
+            g.user['role'] = 'Seller'
 
 @app.context_processor
 def inject_user_name():
     def get_user_name():
         if g.user:
-            return g.user
+        	return g.user
         return None
 
     return {'user_signed': get_user_name()}
 
 @app.route("/", methods=['GET'])
 def get_home_page():
-	return render_template("home.html")
+	result = SQLReadWrite.execute_query('''SELECT p.* FROM products p
+		WHERE (p.category, p.pid) IN (SELECT category, min(pid) FROM products
+  		GROUP BY category)''')
+	return render_template("home.html", categories_p=result)
 
 @app.route("/product/<int:p_id>")
 def get_product_page(p_id:int):
