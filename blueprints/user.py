@@ -11,19 +11,37 @@ from sqlalchemy.sql import text
 from datetime import datetime
 
 from daolayer.SQLReadWrite import SQLReadWrite
+from blueprints import auth
 
 bp = Blueprint("user", __name__, url_prefix="/user")
 
+@bp.before_request
+def load_logged_in_user():
+	user_id = session.get("user_id")
+
+	if user_id is None:
+		g.user = None
+		flash("Please, Login in with your user account")
+		
+	else:
+		result = SQLReadWrite.execute_query("SELECT * FROM users WHERE id = %s", (user_id,))
+		if result:
+			g.user = result[0]
+			g.user['role'] = 'User'
+		else:
+			flash("Please, Login in with your user account")
+			return redirect(url_for("auth.login"))	
+
 @bp.route('/history')
 def show_user_history():
-	uid = session.get("user_id")
+	uid = g.user['id']
 	result = SQLReadWrite.execute_query('''SELECT * FROM user_history u 
 		INNER JOIN products p ON u.pid = p.pid WHERE id =%s''', (uid,))
 	return render_template("userHistory.html", products=result)
 
 @bp.route('/delete-cart-item/<int:pid>')
 def del_cart_item(pid:int):
-	uid = session.get("user_id")
+	uid = g.user['id']
 	SQLReadWrite.execute_query('''DELETE FROM cart WHERE id=%s 
 		AND pid=%s''', (uid, pid), True)
 	print(uid, pid)
@@ -31,7 +49,7 @@ def del_cart_item(pid:int):
 
 @bp.route("/show-cart")
 def show_cart():
-	uid = session.get("user_id")
+	uid = g.user['id']
 	total = 0
 	result = SQLReadWrite.execute_query('''
 		SELECT * FROM products p INNER JOIN cart c 
@@ -42,7 +60,7 @@ def show_cart():
 
 @bp.route("/buy-cart")
 def buy_user_cart():
-	uid = session.get("user_id")
+	uid = g.user['id']
 	curr_tmsp = datetime.now()
 	
 	result = SQLReadWrite.execute_query('''SELECT * FROM cart c INNER JOIN
@@ -51,7 +69,7 @@ def buy_user_cart():
 	query_p = '''UPDATE products SET quantity = quantity - :p_quantity 
 		WHERE pid = :pid '''
 	query_s = '''INSERT INTO user_history (id, pid, date_, p_quantity) VALUES (%s, %s, %s, %s)
-    	ON DUPLICATE KEY UPDATE p_quantity = p_quantity + %s'''
+		ON DUPLICATE KEY UPDATE p_quantity = p_quantity + %s'''
 	
 	with SQLReadWrite.engine.connect() as conn:
 		transaction = conn.begin()
@@ -80,28 +98,28 @@ def buy_user_cart():
 def buy_product(p_id:int):
 	action = request.form.get("action")
 	p_quantity = int(request.form["quantity"])
-	u_id = session.get("user_id")
+	u_id = g.user['id']
 
 	# Buy Now - action Logic
 	if action == "buyNow":
 		with SQLReadWrite.engine.connect() as conn:
-		    transaction = conn.begin()
-		    try:
-		        # A database atomic operation to Update quantity and add user history
-		        conn.execute('''UPDATE products SET quantity = quantity - %s 
-		        where pid = %s''',(p_quantity, p_id))
-		        conn.execute ('''INSERT INTO user_history (id, pid, p_quantity)
-		        VALUES (%s, %s, %s)''', (u_id, p_id, p_quantity))
-		        transaction.commit()
-		    except Exception as e:
-		        transaction.rollback()
-		        flash(str(e))
-		        return redirect(url_for("get_product_page", p_id=p_id))
+			transaction = conn.begin()
+			try:
+				# A database atomic operation to Update quantity and add user history
+				conn.execute('''UPDATE products SET quantity = quantity - %s 
+				where pid = %s''',(p_quantity, p_id))
+				conn.execute ('''INSERT INTO user_history (id, pid, p_quantity)
+				VALUES (%s, %s, %s)''', (u_id, p_id, p_quantity))
+				transaction.commit()
+			except Exception as e:
+				transaction.rollback()
+				flash(str(e))
+				return redirect(url_for("get_product_page", p_id=p_id))
 
 		# Get the data for the purchased product for - Purchase Sucessful page
 		purchases = SQLReadWrite.execute_query("SELECT * FROM products WHERE pid = %s",
 			(p_id,))
-		total = cal_total(purchases, [p_quantity])	
+		total = cal_total(purchases, [p_quantity])  
 		return render_template("bootstrap/productBought.html", purchases=purchases , 
 			p_quantities = [p_quantity], total = total, zip=zip) 
 	
