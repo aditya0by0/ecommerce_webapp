@@ -74,7 +74,7 @@ def search():
 def show_categories(cname=None):
 	products = []
 	if cname is not None:
-		products = SQLReadWrite.execute_query("SELECT * FROM products where category = %s",
+		products = SQLReadWrite.execute_query("SELECT *,cast(round(( `offerPrice` / `price` ) * 100) as int) as `discount` FROM products where category = %s order by discount DESC;",
 			(cname,))
 	
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")
