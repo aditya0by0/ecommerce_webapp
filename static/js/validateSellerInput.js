@@ -8,6 +8,7 @@ var quantityEle = document.getElementById('display-quantity');
 
 var offerForm = document.getElementById('offerForm');
 var createOfferBtn = document.getElementById("co-button");
+var editOfferBtn = document.getElementById("edit-button");
 
 var addQtyBtn = document.getElementById("addQtyBtn")
 

@@ -6,6 +6,8 @@ from flask import url_for
 from flask import request
 from flask import session
 from flask import g
+import sqlite3
+from flask import Flask, jsonify
 
 from itertools import groupby
 
@@ -36,7 +38,13 @@ def show_seller_page():
 				SELECT pid from products_sellers where sid = %s)''',(sid,))
 	sorted_data = sorted(result, key=lambda x: x['category'])
 	grouped_data = groupby(sorted_data, key=lambda x: x['category'])
-	return render_template('seller/yourProducts.html', grouped_products=grouped_data)
+	seller_data = get_best_seller_name()
+	offer_history = get_offer_history()
+	return render_template('seller/yourProducts.html', 
+		grouped_products=grouped_data,
+		grouped_sellers=seller_data,
+		offer_history = offer_history
+	)
 
 @bp.route("/viewProduct/<int:pid>")
 def seller_view_product(pid:int):
@@ -46,6 +54,11 @@ def seller_view_product(pid:int):
 @bp.route("/create-offer-price/<int:pid>", methods=['POST'])
 def add_offered_price(pid:int):
 	offerPrice = float(request.form['offerPrice'])
+	orgOfferPrice = request.form['offerPrice']
+	print(orgOfferPrice, offerPrice)
+	# Update the offerPrice
+	#TODO: Update the sellerId 
+	SQLReadWrite.execute_query(f'INSERT INTO offer_history (`pid`, `sid`, `editor`, `offerPrice`) VALUES({pid}, 1, "Seller", {orgOfferPrice})')
 	SQLReadWrite.execute_query('UPDATE products SET offerPrice = %s WHERE pid = %s',
 		(offerPrice, pid), True)
 	if not get_flashed_messages():
@@ -60,3 +73,22 @@ def add_quantity(pid:int):
 	if not get_flashed_messages():
 		flash("Quantity Added!")
 	return redirect(url_for('seller.seller_view_product', pid = pid))
+
+def get_best_seller_name():
+
+	# Execute a query to retrieve the seller names
+	query = "SELECT sid, COUNT(*) AS orderCount FROM pycoders.user_history GROUP BY sid;"
+	results = SQLReadWrite.execute_query(query)
+	orderCount = (results[0]["orderCount"])
+	orderSellerId = results[0]["sid"]
+
+	query = f"SELECT name FROM pycoders.sellers WHERE id={orderSellerId}"
+	results = SQLReadWrite.execute_query(query)
+	sellerName = results
+	print(sellerName)
+	return sellerName
+
+def get_offer_history():
+	query = "SELECT * FROM offer_history ORDER BY id ASC LIMIT 20"
+	results = SQLReadWrite.execute_query(query)
+	return results
