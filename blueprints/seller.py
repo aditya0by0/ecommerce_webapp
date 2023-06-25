@@ -49,7 +49,17 @@ def show_seller_page():
 @bp.route("/viewProduct/<int:pid>")
 def seller_view_product(pid:int):
 	result = SQLReadWrite.execute_query('SELECT * from products where pid=%s', (pid,))
-	return render_template('seller/productPage.html', product=result[0])
+	ratings = SQLReadWrite.execute_query('SELECT * from ratings WHERE pid=%s', (pid))
+	finalRating = 0
+	if ratings:
+		for rating in ratings:
+			finalRating += float(rating["rating"])
+
+		finalRating = format(float(finalRating/len(ratings)), '.2f')
+	else: 
+		finalRating = "No ratings!"
+
+	return render_template('seller/productPage.html', product=result[0], ratings=finalRating)
 
 @bp.route("/create-offer-price/<int:pid>", methods=['POST'])
 def add_offered_price(pid:int):

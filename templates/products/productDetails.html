@@ -27,6 +27,7 @@
                 {%endif%}
             <p class="quantity" data-quantity="{{product.quantity}}">Quantity : {{product.quantity}}</p>
             <p>Product Date : {{product.pdate}}</p>
+            <p>Product Rating : {{rating}}</p>
             <strong>About this item:</strong>
             <ul>
                 {% for line in product.pdescription.split('\n')%}
