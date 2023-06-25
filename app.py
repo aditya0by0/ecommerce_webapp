@@ -77,6 +77,7 @@ def show_categories(cname=None):
 		products = SQLReadWrite.execute_query("SELECT * FROM products where category = %s",
 			(cname,))
 	
+
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")
 	return render_template('categories.html', categories = result, 
 		products=products, c_name=cname)
@@ -85,6 +86,7 @@ def show_categories(cname=None):
 @app.route("/test")
 def test():
 	return render_template('bootstrap/productBought.html', zip=zip)
+
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", debug=True)

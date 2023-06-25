@@ -1,0 +1,17 @@
+<form method="POST" action="/user//{{product.pid}}" id="offerForm">
+    <div class="row">
+      <div class="col-3">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control rounded-3" name="offer" id="discount" placeholder="25" style="height: 50px;">
+          <label for="discount">Enter &percnt; discount</label>
+          <input type="hidden" name="offerPrice" id = "idOfferPrice">
+        </div>
+      </div>
+      <div class="col-6">
+          <button class="w-150 mb-2 btn btn-lg rounded-3 btn-primary" id ="co-button"  type="submit" disabled>Create or Edit Offer</button>
+      </div>
+      <!-- <div class="col-4">
+        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" id ="edit-button"  type="submit" disabled>Edit Offer</button>
+    </div> -->
+    </div>
+  </form>

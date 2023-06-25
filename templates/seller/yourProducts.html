@@ -27,6 +27,37 @@
     	</div>
     {%endfor%}
 
+ 	<div class="container px-4 py-5" id="custom-cards">
+	    	<h2 class="pb-2 border-bottom">Best Seller of the Month</h2>
+    	<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+		    {%for seller in grouped_sellers%}
+    			{%include 'seller/sellerCard.html'%}
+    		{%endfor%}
+ 		</div>
+ 	</div>
+
+	 <table class="table table-dark">
+		<thead>
+		  <tr>
+			<th scope="col">#</th>
+			<th scope="col">Offer Price</th>
+			<th scope="col">Edited By</th>
+			<th scope="col">Product ID</th>
+		  </tr>
+		</thead>
+		<tbody>
+			{%for offer in offer_history%}
+		  <tr>
+			<th scope="row">{{offer.id}}</th>
+			<td>{{offer.offerPrice}}</td>
+			<td>{{offer.editor}}</td>
+			<td>{{offer.pid}}</td>
+		  </tr>
+		  {%endfor%}
+		</tbody>
+	  </table>
+
+
 {%endblock%}
 
 {% block js%}
