@@ -82,10 +82,11 @@ def search():
 @app.route("/category/<cname>")
 def show_categories(cname=None):
 	products = []
-	if cname is not None:
-		products = SQLReadWrite.execute_query("SELECT *,cast(round(( `offerPrice` / `price` ) * 100) as int) as `discount` FROM products where category = %s order by discount DESC;",
+	if cname is not None:		
+		products = SQLReadWrite.execute_query("SELECT *, round(( `offerPrice` / `price` ) * 100) as `discount` FROM products where category = %s order by discount DESC;",
+		# Faulty query - please review!
+		# products = SQLReadWrite.execute_query("SELECT *,cast(round(( `offerPrice` / `price` ) * 100) as int) as `discount` FROM products where category = %s order by discount DESC;",
 			(cname,))
-	
 
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")
 	return render_template('categories.html', categories = result, 
@@ -94,7 +95,6 @@ def show_categories(cname=None):
 @app.route("/test")
 def test():
 	return render_template('bootstrap/productBought.html', zip=zip)
-
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", debug=True)
