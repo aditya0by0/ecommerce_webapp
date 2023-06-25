@@ -54,10 +54,19 @@ def get_home_page():
 
 @app.route("/product/<int:p_id>")
 def get_product_page(p_id:int):
-	result = SQLReadWrite.execute_query('SELECT * from products where pid=%s', (p_id,))
 	# result[0] : for single product as the page is designed for single product display
-	
-	return render_template("products/productDetails.html",product = result[0])
+	result = SQLReadWrite.execute_query('SELECT * from products where pid=%s', (p_id))
+	ratings = SQLReadWrite.execute_query('SELECT * from ratings WHERE pid=%s', (p_id))
+	finalRating = 0
+	if ratings:
+		for rating in ratings:
+			finalRating += float(rating["rating"])
+
+		finalRating = format(float(finalRating/len(ratings)), '.2f')
+	else: 
+		finalRating = "No ratings!"
+
+	return render_template("products/productDetails.html", product = result[0], rating=finalRating)
 
 @app.route("/search", methods=['POST'])
 def search():
@@ -81,7 +90,6 @@ def show_categories(cname=None):
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")
 	return render_template('categories.html', categories = result, 
 		products=products, c_name=cname)
-
 
 @app.route("/test")
 def test():

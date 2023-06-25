@@ -92,6 +92,13 @@ def buy_user_cart():
 	return render_template("bootstrap/productBought.html", purchases=result , 
 			p_quantities = p_quantities, total = total, zip=zip)
 
+@bp.route("/submit-rating/<int:p_id>", methods=["POST"])
+def submit_rating(p_id:int):
+	rating = request.form["rating"]
+	SQLReadWrite.execute_query(f"INSERT INTO ratings (`rating`, `pid`) VALUES({rating}, {p_id})")
+	flash("Thank you for rating the product!")
+	return redirect("/")
+
 # Route - for any buying or add to card user action
 @bp.route("/buy-add-product/<int:p_id>" , methods=['POST'])
 # @auth.login_required
@@ -99,7 +106,6 @@ def buy_product(p_id:int):
 	action = request.form.get("action")
 	p_quantity = int(request.form["quantity"])
 	u_id = g.user['id']
-
 	# Buy Now - action Logic
 	if action == "buyNow":
 		with SQLReadWrite.engine.connect() as conn:
