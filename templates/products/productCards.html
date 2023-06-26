@@ -3,19 +3,27 @@
     <div class="card shadow-sm">
       <img class="bd-placeholder-img card-img-top" src="/static/images/products/{{product.pCode}}" alt="Placeholder: Thumbnail" height="225">
 
-      <div class="card-body ">
-        <p class="card-text">{{product.pName}}</p>
-            <div class="labelPrice" data-price = {{product.price}} >
-                <small class="text-body-secondary"><s>&euro;{{product.price}}</s></small>
-            </div>
-            <div class="labediscountPrice" data-price = {{product.offerPrice}} >
-                <small class="text-body-secondary">&euro;{{product.offerPrice}}</small>
-            </div>
-            <div class="discount" data-price = {{product.discount}} >
-                <small class="text-body-secondary"><span style="color: red;">-{{product.discount}}% DISCOUNT</span></small>
-            </div>
-        <div class="labelDate" data-date={{product.pdate}}></div>
-      </div>
+<div class="card-body">
+    <p class="card-text">{{product.pName}}</p>
+    {% if product.discount != 0 %}
+        <div class="labelPrice" data-price="{{product.price}}">
+            <small class="text-body-secondary"><s>&euro;{{product.price}}</s></small>
+        </div>
+        <div class="labediscountPrice" data-price="{{product.offerPrice}}">
+            <small class="text-body-secondary">&euro;{{product.offerPrice}}</small>
+        </div>
+        <div class="discount" data-price="{{product.discount}}">
+            <small class="text-body-secondary"><span style="color: red;">{{product.discount}}% DISCOUNT</span></small>
+        </div>
+    {% else %}
+        <div class="labelPrice" data-price="{{product.price}}">
+            <small class="text-body-secondary">&euro;{{product.price}}</small>
+        </div>
+    {% endif %}
+    <div class="labelDate" data-date="{{product.pdate}}"></div>
+</div>
+
+
     </div>
   </a>
 </div>
