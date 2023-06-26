@@ -30,6 +30,7 @@
             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
           </div>
           <div class="carousel-inner">
+          {%if categories_p is not none%}
             {%for category_p in categories_p%}
               <div class="carousel-item" data-bs-interval="5000">  
                 <img src="/static/images/products/{{category_p.pCode}}" width="300">
@@ -38,6 +39,7 @@
                 </div>
               </div>
             {%endfor%}
+          {%endif%}
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
