@@ -73,8 +73,10 @@ def search():
 	searched = request.form['searched'].lower()
 
 	with SQLReadWrite.engine.connect() as conn:
-		result = conn.execute('SELECT *, cast(round(( `offerPrice` / `price` ) * 100) as int) as `discount` from products where pName LIKE %s order by discount DESC',
-								('%'+searched+'%',))
+		result = conn.execute('''SELECT *, 
+			cast((( offerPrice / price ) * 100) as signed) as "discount" 
+			FROM products where pName LIKE %s order by discount DESC''',
+			('%'+searched+'%',))
 	result_dict = [dict(row) for row in result.all()]
 	return render_template('search.html', searched=searched , products = result_dict)
 
@@ -83,7 +85,9 @@ def search():
 def show_categories(cname=None):
 	products = []
 	if cname is not None:
-		products = SQLReadWrite.execute_query("SELECT *,cast(round(( `offerPrice` / `price` ) * 100) as int) as `discount` FROM products where category = %s order by discount DESC;",
+		products = SQLReadWrite.execute_query('''SELECT *,
+			cast((( offerPrice / price ) * 100) as signed) as "discount" 
+			FROM products where category = %s order by discount DESC;''',
 			(cname,))
 	
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")
