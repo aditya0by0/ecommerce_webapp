@@ -16,10 +16,12 @@
 		                	<h6 class="my-0">{{product.pName}}</h6>
 		                </a>
 		                <small class="text-body-secondary">{{product.category}}</small>
+		                <div class="text-body-secondary">Seller Name : {{product.name}}</div>
 		              </div>
 		              <div>
 		                  <h6 class="my-0">Qty:  {{product.p_quantity}}</h6>
 		                  <small class="text-body-secondary">{{product.date_}}</small>
+		                  <div class="text-body-secondary">Seller contact : {{product.email}}</div>
 		              </div>
 		            </li>
 		          {%endfor%}
@@ -28,7 +30,7 @@
 		    </div>
 	      </a>
       {%else%}
-      	<h2>Sorry, You have not Created a History yet!😂</h2>
+      	<h2>No User History yet!</h2>
       {%endif%}
 	  </div>
 	</div>

@@ -4,11 +4,11 @@ var maxQuantity = parseInt(document.querySelector('.quantity')
 
 var buyBtn = document.getElementById("buyBtn");
 var a2cBtn = document.getElementById("a2cBtn");
+var chatBtn = document.getElementById("chatBtn");
 
 var validationError = document.getElementById('validationError');
 
 quantityInput.addEventListener('input', validateInputQuantity);
-
 
 function validateInputQuantity(e) {
   var inputValue = e.target.value;
@@ -34,3 +34,14 @@ function validateInputQuantity(e) {
 
   
 }
+
+function get_user_signed_var(userSigned){
+  if (userSigned){
+    chatBtn.disabled = false;
+  }else{
+    chatBtn.disabled = true;
+  }
+}
+
+
+

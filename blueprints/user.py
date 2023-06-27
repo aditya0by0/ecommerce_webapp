@@ -35,8 +35,13 @@ def load_logged_in_user():
 @bp.route('/history')
 def show_user_history():
 	uid = g.user['id']
-	result = SQLReadWrite.execute_query('''SELECT * FROM user_history u 
-		INNER JOIN products p ON u.pid = p.pid WHERE id =%s''', (uid,))
+	result = SQLReadWrite.execute_query('''SELECT u.*,p.*,s.name, s.email 
+		FROM user_history u 
+		JOIN products p ON u.pid = p.pid 
+		JOIN products_sellers ps ON ps.pid=p.pid
+		JOIN sellers s ON s.id = ps.sid 
+		WHERE u.id =%s''', (uid,))
+	print(result[0])
 	return render_template("userHistory.html", products=result)
 
 @bp.route('/delete-cart-item/<int:pid>')
@@ -63,8 +68,12 @@ def buy_user_cart():
 	uid = g.user['id']
 	curr_tmsp = datetime.now()
 	
-	result = SQLReadWrite.execute_query('''SELECT * FROM cart c INNER JOIN
-		products p ON c.pid = p.pid WHERE id = %s''', (uid,))
+	result = SQLReadWrite.execute_query('''SELECT c.*,p.*,s.name, s.email 
+		FROM cart c 
+		INNER JOIN products p ON c.pid = p.pid
+		INNER JOIN products_sellers ps ON ps.pid = p.pid
+		INNER JOIN sellers s ON s.id = ps.sid 
+		WHERE c.id = %s''', (uid,))
 	
 	query_p = '''UPDATE products SET quantity = quantity - :p_quantity 
 		WHERE pid = :pid '''
@@ -101,7 +110,6 @@ def submit_rating(p_id:int):
 
 # Route - for any buying or add to card user action
 @bp.route("/buy-add-product/<int:p_id>" , methods=['POST'])
-# @auth.login_required
 def buy_product(p_id:int):
 	action = request.form.get("action")
 	p_quantity = int(request.form["quantity"])
@@ -123,9 +131,14 @@ def buy_product(p_id:int):
 				return redirect(url_for("get_product_page", p_id=p_id))
 
 		# Get the data for the purchased product for - Purchase Sucessful page
-		purchases = SQLReadWrite.execute_query("SELECT * FROM products WHERE pid = %s",
+		purchases = SQLReadWrite.execute_query('''SELECT p.*, s.name, s.email 
+			FROM products p 
+			INNER JOIN products_sellers ps ON ps.pid = p.pid
+			INNER JOIN sellers s ON s.id = ps.sid
+			WHERE p.pid = %s''',
 			(p_id,))
-		total = cal_total(purchases, [p_quantity])  
+		total = cal_total(purchases, [p_quantity])
+
 		return render_template("bootstrap/productBought.html", purchases=purchases , 
 			p_quantities = [p_quantity], total = total, zip=zip) 
 	

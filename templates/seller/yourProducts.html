@@ -12,20 +12,27 @@
 	    </div>
 	    <div class="col-3 text-center">
 	      <button class="btn btn-lg rounded-3 btn-primary" type="submit" style="position: absolute; right: 0;">Add Product</button>
+	      	<a href="/chat/sellerChatPage">
+	      		<button>Chat</button>
+	      	</a>
+	      </form>
 	    </div>
 	  </div>
 	</div>
-
-    {%for category,group in grouped_products%}
-    	<div class="container px-4 py-5" id="custom-cards">
-	    	<h2 class="pb-2 border-bottom">{{category}}</h2>
-	    	<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-	    		{%for product in group%}
-	    			{%include 'seller/productCard.html'%}
-	    		{%endfor%}
-    		</div>
-    	</div>
-    {%endfor%}
+	{%if grouped_products%}
+	    {%for category,group in grouped_products%}
+	    	<div class="container px-4 py-5" id="custom-cards">
+		    	<h2 class="pb-2 border-bottom">{{category}}</h2>
+		    	<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+		    		{%for product in group%}
+		    			{%include 'seller/productCard.html'%}
+		    		{%endfor%}
+	    		</div>
+	    	</div>
+	    {%endfor%}
+    {%else%}
+    	<h3 class="d-flex justify-content-center align-items-center p-3 my-3 rounded shadow-sm">You have No products yet, to sell!</h3>
+    {%endif%}
 
  	<div class="container px-4 py-5" id="custom-cards">
 	    	<h2 class="pb-2 border-bottom">Best Seller of the Month</h2>

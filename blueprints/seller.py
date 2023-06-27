@@ -36,8 +36,11 @@ def show_seller_page():
 	sid = g.user['id']
 	result = SQLReadWrite.execute_query('''SELECT * FROM products where pid in (
 				SELECT pid from products_sellers where sid = %s)''',(sid,))
-	sorted_data = sorted(result, key=lambda x: x['category'])
-	grouped_data = groupby(sorted_data, key=lambda x: x['category'])
+	if result:
+		sorted_data = sorted(result, key=lambda x: x['category'])
+		grouped_data = groupby(sorted_data, key=lambda x: x['category'])
+	else : 
+		grouped_data = None
 	seller_data = get_best_seller_name()
 	offer_history = get_offer_history()
 	return render_template('seller/yourProducts.html', 

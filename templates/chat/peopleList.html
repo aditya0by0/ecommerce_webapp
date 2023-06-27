@@ -1,0 +1,15 @@
+<div id="plist" class="people-list">
+  <ul class="list-unstyled chat-list mt-2 mb-0">
+    {% for people in people_list %}
+      <li class="clearfix" style="background:#EEFCFC;" onclick="submitForm('{{ people.pid }}', '{{ people.id }}', '{{ people.username }}')">
+        <div class="about">
+          <div class="name">{{ people.username }}</div>
+          <div class="status"> 
+            <i class="fa fa-circle offline"></i>
+            For Product: {{ people.pName }} 
+          </div>        
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

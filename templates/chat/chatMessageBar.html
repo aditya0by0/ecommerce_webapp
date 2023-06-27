@@ -1,0 +1,17 @@
+<div class="chat-message clearfix">
+  <div class="input-group mb-0">
+    <form id='msgSubmitForm' method="POST" class="col-12 row">
+	    <div class="col-11">
+        <input type="text" name="inputTxt" id="idInputTxt" class="form-control" placeholder="Enter message here....">
+	    </div>
+	    <div class="col-1">
+        <button class="fa fa-send form-control" type="submit" id='sendBtn' disabled></button>
+	    </div>
+	    {%if is_seller == 1%}
+	    	<input hidden type="number" name='uid' value="{{uid}}" >
+	    	<input hidden type="number" name='pid' value="{{pid}}" >
+	    	<input hidden type="text" name="uname" value="{{username}}">
+	    {%endif%}
+		</form>               
+  </div>
+</div>

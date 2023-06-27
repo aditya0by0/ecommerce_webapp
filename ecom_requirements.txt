@@ -1,13 +1,18 @@
 essential:-
 	- create account
-	- create offers (text only) 
+	- create offers (text only) - upload photo of offer
 	- buy product (mark as sold)
+	- 
 
 necessary:-
 	- search for products
 	- different categories 
+	- edit the offers, store previous offers, and u should be able to see the previous offers in seller dasboard, 
+	(seller offer history)
+	- chat bot for communication b/w seller and product
+		should be available before buying the product, it can be availabe after buying the
 
-	- different sorting criterias for results
+	- different sorting criterias for results	
 		* price low to high
 		* price high to low
 		* customer satisfaction ratio
@@ -16,4 +21,7 @@ necessary:-
 nice to have:- 
 	- awards for selling lot of products
 	- customer satisfaction ratio
+
 	- dont show full information about the sellers prior to buying from them (like personal information)
+		* purchase sucessful page, purchase history
+	- high discount products should be at top (by default in the same product category/search)

@@ -8,12 +8,13 @@ from flask import flash
 from flask import session
 
 from daolayer.SQLReadWrite import SQLReadWrite
-from blueprints import auth, seller, user
+from blueprints import auth, seller, user, chat
 
 app = Flask(__name__, template_folder='templates')
 app.register_blueprint(auth.bp)
 app.register_blueprint(seller.bp)
 app.register_blueprint(user.bp)
+app.register_blueprint(chat.bp)
 
 app.secret_key = 'isee_project_ecomm'
 
@@ -73,8 +74,10 @@ def search():
 	searched = request.form['searched'].lower()
 
 	with SQLReadWrite.engine.connect() as conn:
-		result = conn.execute('SELECT *, cast(round(( `offerPrice` / `price` ) * 100) as int) as `discount` from products where pName LIKE %s order by discount DESC',
-								('%'+searched+'%',))
+		result = conn.execute('''SELECT *, 
+			cast((( offerPrice / price ) * 100) as signed) as "discount" 
+			FROM products where pName LIKE %s order by discount DESC''',
+			('%'+searched+'%',))
 	result_dict = [dict(row) for row in result.all()]
 	return render_template('search.html', searched=searched , products = result_dict)
 
@@ -83,7 +86,9 @@ def search():
 def show_categories(cname=None):
 	products = []
 	if cname is not None:
-		products = SQLReadWrite.execute_query("SELECT *,cast(round(( `offerPrice` / `price` ) * 100) as int) as `discount` FROM products where category = %s order by discount DESC;",
+		products = SQLReadWrite.execute_query('''SELECT *,
+			cast((( offerPrice / price ) * 100) as signed) as "discount" 
+			FROM products where category = %s order by discount DESC;''',
 			(cname,))
 	
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")
