@@ -46,10 +46,26 @@
                       <button type="submit" name="action" value="a2c" class="btn btn-secondary btn-lg" id="a2cBtn" disabled>Add to cart</button>
                 </form>
             {%endif%}
+            
+            <br>
+            <div>
+                {%if user_signed%}
+                  <span></span>
+                {%else%}
+                  <span>*Please Login to chat with Seller</span>
+                {%endif%}
+                <form method="GET" action="/chat/u_w_s/{{ product.pid }}">
+                    <button type="submit" class="btn btn-primary btn-lg" id="chatBtn">Chat with Seller</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 {%endblock%}
 {% block js%}
   <script type="text/javascript" src="/static/js/validateQuantity.js"></script>
+  <script>
+    var userSigned = {{user_signed|tojson}}
+    get_user_signed_var(userSigned);
+  </script>
 {% endblock%}

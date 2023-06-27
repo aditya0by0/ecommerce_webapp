@@ -13,18 +13,18 @@ create table users (
 
 drop table if exists products;
 create table products(
-	pid int primary key auto_increment,
-    pName text not null,
-    price float not null,
-    offerPrice float not null default 0, 
-    sold enum('1','0') not null,
-    category varchar(25) not null,
-    pCode text not null,
-    pdate timestamp not null default current_timestamp,
-    quantity int not null default 1,
-    pdescription text not null,
-    CONSTRAINT chec_qty CHECK(quantity >= 0),
-    CONSTRAINT check_qty_sold CHECK ((quantity > 0 AND sold = '0') OR (quantity = 0 AND sold = '1'))
+  pid int primary key auto_increment,
+  pName text not null,
+  price float not null,
+  offerPrice float not null default 0, 
+  sold enum('1','0') not null,
+  category varchar(25) not null,
+  pCode text not null,
+  pdate timestamp not null default current_timestamp,
+  quantity int not null default 1,
+  pdescription text not null,
+  CONSTRAINT chec_qty CHECK(quantity >= 0),
+  CONSTRAINT check_qty_sold CHECK ((quantity > 0 AND sold = '0') OR (quantity = 0 AND sold = '1'))
 );
 
 DELIMITER //
@@ -111,3 +111,20 @@ create table cart(
   foreign key (pid) references products(pid),
   foreign key (id) references users(id)
 );
+
+drop table if exists chats;
+create table chats (
+    chat_id int primary key not null auto_increment,
+    sender_id int,
+    recipient_id int,
+    product_id int,
+    message text,
+    timestamp datetime default current_timestamp,
+    is_read int default 0,
+    is_user_d_sender int, 
+    foreign key (sender_id) references users (id),
+    foreign key (recipient_id) references sellers (id),
+    foreign key (product_id) references products (pid),
+    CONSTRAINT check_is_user CHECK(is_user_d_sender = 1 or is_user_d_sender = 0)
+);
+

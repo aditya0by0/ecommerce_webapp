@@ -8,12 +8,13 @@ from flask import flash
 from flask import session
 
 from daolayer.SQLReadWrite import SQLReadWrite
-from blueprints import auth, seller, user
+from blueprints import auth, seller, user, chat
 
 app = Flask(__name__, template_folder='templates')
 app.register_blueprint(auth.bp)
 app.register_blueprint(seller.bp)
 app.register_blueprint(user.bp)
+app.register_blueprint(chat.bp)
 
 app.secret_key = 'isee_project_ecomm'
 

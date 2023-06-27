@@ -1,0 +1,28 @@
+<div class="chat-history" id="chat-history">
+	<ul class="m-b-0">
+    {%if msgs%}
+   		{%for msg in msgs %}
+   			{%if is_seller == 1%}
+   				{% if msg.is_user_d_sender == 1%}
+   					{%include '/chat/recipientReply.html'%}
+				{%else%}
+					{%include '/chat/senderMsg.html'%}
+				{%endif%}
+   			{%else%}
+				{% if msg.is_user_d_sender == 1%}
+					{%include '/chat/senderMsg.html'%}
+				{%else%}
+					{%include '/chat/recipientReply.html'%}
+				{%endif%}
+   			{%endif%}
+   			
+   		{%endfor%}
+   	{%else%}
+   		<div class="message-data text-center">
+				<span class="message-data-time">
+					No chats history
+				</span>
+			</div>
+   	{%endif%}
+	</ul>
+</div>

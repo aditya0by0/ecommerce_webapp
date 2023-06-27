@@ -37,3 +37,4 @@ class SQLReadWrite:
 
 		except Exception as e:
 			flash(str(e))
+			# raise e
