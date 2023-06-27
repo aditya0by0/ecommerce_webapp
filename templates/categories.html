@@ -6,9 +6,11 @@
 	    <h5>Select Category :</h5>
 	  </div>
 	  <div class="col d-flex gap-3 ">
+      {%if categories is not none%}
 	    {% for category in categories%}
 	    	<button class="btn btn-outline-primary rounded-pill px-3 category-button" type="button" data-category="{{ category.category}}" >{{category.category}}</button>
 	    {%endfor%}
+      {%endif%}
 	  </div>
 	  <div class="col d-flex justify-content-end pr-5">
 	  	{%include '/bootstrap/sortDropdown.html'%}
