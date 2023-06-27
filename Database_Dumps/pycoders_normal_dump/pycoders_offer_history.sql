@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.33, for macos13 (arm64)
+CREATE DATABASE  IF NOT EXISTS `pycoders` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `pycoders`;
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: localhost    Database: pycoders
 -- ------------------------------------------------------
@@ -16,32 +18,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `users`
+-- Table structure for table `offer_history`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `offer_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
+CREATE TABLE `offer_history` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `username` varchar(15) NOT NULL,
-  `password` text NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `pid` int NOT NULL,
+  `sid` int NOT NULL,
+  `editor` varchar(45) DEFAULT NULL,
+  `offerPrice` float DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `offer_history`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (38,'Aditya Ganesh Khedekar','aditya0by0','pbkdf2:sha256:260000$bQFaflDmQ4IEE0MG$cdb4382b625b6a26f718b5e84704e05ac4a90b38dbd51ce3554b22e105870689','aditya0by0@gmail.com'),(39,'aditya ','aditya0by0123','pbkdf2:sha256:260000$VnLhLfT4PUC0fKK1$8e643d7b029937ca1c092af237c2635a095e7d79ca4899cb71bf60954932db29','aditya0by0123@gmail.com');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `offer_history` WRITE;
+/*!40000 ALTER TABLE `offer_history` DISABLE KEYS */;
+INSERT INTO `offer_history` VALUES (10,6,1,'Seller',1),(11,6,1,'Seller',1),(12,6,1,'Seller',1),(13,6,1,'Seller',7),(14,1,1,'Seller',10),(15,6,1,'Seller',6),(16,6,1,'Seller',1),(17,6,1,'Seller',2),(18,6,1,'Seller',4.5),(19,6,1,'Seller',2),(20,7,1,'Seller',7);
+/*!40000 ALTER TABLE `offer_history` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-25 15:43:36
+-- Dump completed on 2023-06-27 21:46:10

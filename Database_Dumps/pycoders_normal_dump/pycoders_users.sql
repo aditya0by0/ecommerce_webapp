@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.33, for macos13 (arm64)
+CREATE DATABASE  IF NOT EXISTS `pycoders` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `pycoders`;
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: localhost    Database: pycoders
 -- ------------------------------------------------------
@@ -16,34 +18,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_history`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `user_history`;
+DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_history` (
-  `id` int NOT NULL,
-  `pid` int NOT NULL,
-  `date_` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `p_quantity` int NOT NULL,
-  `sid` int NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`,`pid`,`date_`),
-  KEY `pid` (`pid`,`sid`),
-  KEY `sid_idx` (`sid`),
-  CONSTRAINT `seller_id_fk1` FOREIGN KEY (`sid`) REFERENCES `sellers` (`id`),
-  CONSTRAINT `user_history_ibfk_2` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `username` varchar(15) NOT NULL,
+  `password` text NOT NULL,
+  `email` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_history`
+-- Dumping data for table `users`
 --
 
-LOCK TABLES `user_history` WRITE;
-/*!40000 ALTER TABLE `user_history` DISABLE KEYS */;
-INSERT INTO `user_history` VALUES (38,1,'2023-06-24 21:28:14',5,1),(38,6,'2023-06-24 21:20:51',1,1),(38,8,'2023-06-01 21:26:04',1,1),(38,8,'2023-06-02 15:09:41',4,1),(38,9,'2023-06-02 15:11:23',13,1),(38,12,'2023-06-24 21:28:14',2,1),(38,12,'2023-06-24 21:33:05',1,1),(38,13,'2023-06-24 21:31:33',2,1),(38,14,'2023-06-01 21:30:36',1,1),(39,15,'2023-06-01 21:30:36',1,2);
-/*!40000 ALTER TABLE `user_history` ENABLE KEYS */;
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (38,'Aditya Ganesh Khedekar','aditya0by0','pbkdf2:sha256:260000$bQFaflDmQ4IEE0MG$cdb4382b625b6a26f718b5e84704e05ac4a90b38dbd51ce3554b22e105870689','aditya0by0@gmail.com'),(39,'aditya ','aditya0by0123','pbkdf2:sha256:260000$VnLhLfT4PUC0fKK1$8e643d7b029937ca1c092af237c2635a095e7d79ca4899cb71bf60954932db29','aditya0by0123@gmail.com');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-25 15:43:36
+-- Dump completed on 2023-06-27 21:46:09

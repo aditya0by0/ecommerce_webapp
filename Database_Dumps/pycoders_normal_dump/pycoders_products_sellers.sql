@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.33, for macos13 (arm64)
+CREATE DATABASE  IF NOT EXISTS `pycoders` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `pycoders`;
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: localhost    Database: pycoders
 -- ------------------------------------------------------
@@ -16,31 +18,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cart`
+-- Table structure for table `products_sellers`
 --
 
-DROP TABLE IF EXISTS `cart`;
+DROP TABLE IF EXISTS `products_sellers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cart` (
-  `id` int NOT NULL,
+CREATE TABLE `products_sellers` (
   `pid` int NOT NULL,
-  `p_quantity` int NOT NULL,
-  PRIMARY KEY (`id`,`pid`),
-  KEY `pid` (`pid`),
-  CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`),
-  CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
+  `sid` int NOT NULL,
+  PRIMARY KEY (`pid`,`sid`),
+  KEY `sid` (`sid`),
+  CONSTRAINT `products_sellers_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`),
+  CONSTRAINT `products_sellers_ibfk_2` FOREIGN KEY (`sid`) REFERENCES `sellers` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cart`
+-- Dumping data for table `products_sellers`
 --
 
-LOCK TABLES `cart` WRITE;
-/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (38,12,1);
-/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+LOCK TABLES `products_sellers` WRITE;
+/*!40000 ALTER TABLE `products_sellers` DISABLE KEYS */;
+INSERT INTO `products_sellers` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,2),(9,2),(10,2),(11,2),(12,2),(13,2),(14,2),(15,2);
+/*!40000 ALTER TABLE `products_sellers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-25 15:43:36
+-- Dump completed on 2023-06-27 21:46:09

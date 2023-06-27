@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.33, for macos13 (arm64)
+CREATE DATABASE  IF NOT EXISTS `pycoders` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `pycoders`;
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: localhost    Database: pycoders
 -- ------------------------------------------------------
@@ -16,31 +18,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `offer_history`
+-- Table structure for table `ratings`
 --
 
-DROP TABLE IF EXISTS `offer_history`;
+DROP TABLE IF EXISTS `ratings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `offer_history` (
+CREATE TABLE `ratings` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `pid` int NOT NULL,
-  `sid` int NOT NULL,
-  `editor` varchar(45) DEFAULT NULL,
-  `offerPrice` float DEFAULT NULL,
+  `rating` varchar(45) DEFAULT NULL,
+  `pid` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `offer_history`
+-- Dumping data for table `ratings`
 --
 
-LOCK TABLES `offer_history` WRITE;
-/*!40000 ALTER TABLE `offer_history` DISABLE KEYS */;
-INSERT INTO `offer_history` VALUES (10,6,1,'Seller',1),(11,6,1,'Seller',1),(12,6,1,'Seller',1),(13,6,1,'Seller',7),(14,1,1,'Seller',10),(15,6,1,'Seller',6),(16,6,1,'Seller',1),(17,6,1,'Seller',2),(18,6,1,'Seller',4.5),(19,6,1,'Seller',2),(20,7,1,'Seller',7);
-/*!40000 ALTER TABLE `offer_history` ENABLE KEYS */;
+LOCK TABLES `ratings` WRITE;
+/*!40000 ALTER TABLE `ratings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ratings` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-25 15:43:36
+-- Dump completed on 2023-06-27 21:46:10
