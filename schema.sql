@@ -122,8 +122,6 @@ create table chats (
     timestamp datetime default current_timestamp,
     is_read int default 0,
     is_user_d_sender int, 
-    foreign key (sender_id) references users (id),
-    foreign key (recipient_id) references sellers (id),
     foreign key (product_id) references products (pid),
     CONSTRAINT check_is_user CHECK(is_user_d_sender = 1 or is_user_d_sender = 0)
 );
