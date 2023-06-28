@@ -22,7 +22,7 @@ def load_logged_in_user():
 	if user_id is None:
 		g.user = None
 		flash("Please, Login in with your user account")
-		
+		return redirect(url_for("auth.login"))
 	else:
 		result = SQLReadWrite.execute_query("SELECT * FROM users WHERE id = %s", (user_id,))
 		if result:
