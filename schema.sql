@@ -17,6 +17,7 @@ create table products(
   pName text not null,
   price float not null,
   offerPrice float not null default 0, 
+  offerImg text,
   sold enum('1','0') not null,
   category varchar(25) not null,
   pCode text not null,

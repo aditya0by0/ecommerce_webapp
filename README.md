@@ -50,6 +50,15 @@ Week 5 - Commit 6
 - logic to show product of each category in the above carousel
 - Slight Fixes and Modifications
 
+Rest of the Weeks
+<br/>
+- Chat Bot
+- Upload offer image
+- Dont show seller info prior buying
+- Offer History
+- Best seller
+- Default sorting criteria as discount
+- Bug Fixes
 
 ## Getting started
 

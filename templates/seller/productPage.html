@@ -1,6 +1,7 @@
 {% extends 'layout.html'%}
 {%block css%}
     <link rel="stylesheet" href="/static/css/soldTag.css">
+    <link rel="stylesheet" href="/static/css/offerImg.css">
 {%endblock%}
 
 {% block content %}
@@ -8,7 +9,15 @@
     <div class="row">
         <div class="col-md-6" id='b_image'>
             <div class="productTag">   
-                <img src="/static/images/products/{{product.pCode}}" alt="test" width="400px">
+                <div id="parent-img">   
+                    <img src="/static/images/products/{{product.pCode}}" alt="poduct" width="400px" class="product-img" >
+                    {%if product.offerPrice != 0.0 and product.offerImg%}
+                        <img src="/static/images/offers/{{product.offerImg}}" alt="offer" class="offer-img" width="100px">
+                    {%endif%}
+                </div>
+                {%if product.sold == '1'%}
+                    <span class="sold-tag">SOLD</span>
+                {%endif%}
             </div>
         </div>
         <div class="col-md-6">

@@ -9,25 +9,33 @@ var quantityEle = document.getElementById('display-quantity');
 var offerForm = document.getElementById('offerForm');
 var createOfferBtn = document.getElementById("co-button");
 var editOfferBtn = document.getElementById("edit-button");
+var fileInput = document.getElementById("fileInput");
 
 var addQtyBtn = document.getElementById("addQtyBtn")
 
 discountInput.addEventListener('input', validateInputPrice);
+fileInput.addEventListener('change', validateInputPrice);
 quantityInput.addEventListener('input', validateInputQuantity);
 offerForm.addEventListener('submit', addOfferPrice2Form);
 
 function validateInputPrice(e) {
-  var inputValue = e.target.value;
+  var inputValue = discountInput.value;
+  var isFileUploaded = fileInput.files.length > 0;
 
   if (isNaN(inputValue) || inputValue < 1 || inputValue > 100) {
-    e.target.value = ''; 
+    discountInput.value = ''; 
   }
 
-  if (inputValue.trim() === '') {
+  inputVal = inputValue.trim()
+  if (inputVal === '') {
     offerPriceEle.style.display = 'none';
-    createOfferBtn.disabled = true;
   } else {
     offerPriceEle.style.display = 'block';
+  }
+
+  if (inputVal === '' || !isFileUploaded) {
+    createOfferBtn.disabled = true;
+  } else if(inputVal !== '' && isFileUploaded) {
     createOfferBtn.disabled = false;
   }
 

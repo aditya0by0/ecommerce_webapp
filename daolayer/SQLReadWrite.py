@@ -4,12 +4,13 @@ import os
 from sqlalchemy.exc import IntegrityError
 
 class SQLReadWrite:
-	
+	# Hard Code the values here if necessary
 	username = os.environ.get('MYSQL_USERNAME')
 	password = os.environ.get('MYSQL_PASSWORD')
 	host 	 = os.environ.get('MYSQL_HOST', default='localhost')
 	database = os.environ.get("MYSQL_DB")
-	engine = create_engine(f'mysql+pymysql://{username}:{password}@{host}/{database}')
+	
+	engine   = create_engine(f'mysql+pymysql://{username}:{password}@{host}/{database}')
 
 	@staticmethod
 	def execute_query(query, p_tuple=(), put_op = False):

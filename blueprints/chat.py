@@ -12,6 +12,7 @@ from blueprints import seller, user, auth
 
 bp = Blueprint("chat", __name__, url_prefix="/chat")
 
+# Route if user chats with seller
 @bp.route("/u_w_s/<int:pid>", methods=["POST", "GET"])
 def chat_with_seller(pid:int):
     user.load_logged_in_user()
@@ -25,21 +26,23 @@ def chat_with_seller(pid:int):
     
     if request.method == 'GET':
         sorted_msgs = get_msgs(uid, sid, pid)
-
         return render_template("chat/chatPage.html", msgs = sorted_msgs,
         	p_name=product_name, pid=pid)
 
+    # Inserts chats to the database
     message = request.form['inputTxt']
     SQLReadWrite.execute_query('''INSERT INTO chats (sender_id, recipient_id,
         product_id,message,is_user_d_sender) VALUES (%s,%s,%s,%s,%s)''',
         (uid,sid,pid,message,1), True)
     return redirect(url_for("chat.chat_with_seller",pid=pid))
 
+# Seller Chat Page
 @bp.route("/sellerChatPage", methods=["POST", "GET"])
 def get_seller_chat_page():
     seller.load_logged_in_seller()
     sid = g.user['id'] 
     
+    # When Seller click on Chat Button on Seller Base Page
     if request.method == 'POST':
         uid = request.form['uid']
         pid = request.form['pid']
@@ -50,6 +53,7 @@ def get_seller_chat_page():
     pid = request.args.get('pid', None)
     uname = request.args.get('uname', None)
 
+    # Get all chat history of seller with the Seller's Chat Page
     if uid is not None and pid is not None:
         sorted_msgs = get_msgs(uid,sid,pid)
         product_data = SQLReadWrite.execute_query('''SELECT pName
@@ -60,10 +64,11 @@ def get_seller_chat_page():
         sorted_msgs = None
         pname=None
 
-    people_list = get_people_list(sid)
+    people_list = get_people_list(sid) # Gets Users who has pinged the seller
     return render_template("chat/chatPage.html", msgs = sorted_msgs, pid=pid,
         is_seller = 1, people_list=people_list, username=uname, uid=uid, pname=pname)
 
+# When Seller sends message to respective user
 @bp.route("/s_w_u", methods=["POST"])
 def chat_with_user():
     seller.load_logged_in_seller()
@@ -78,6 +83,7 @@ def chat_with_user():
     return redirect(url_for('chat.get_seller_chat_page',uid=uid, pid=pid, uname=uname))
 
 def get_people_list(sid):
+    '''Gets user who has pinged seller regarding respective product'''
     people_list = SQLReadWrite.execute_query('''SELECT p.pName, u.username, p.pid, u.id
         FROM chats c
         INNER JOIN products p ON p.pid = c.product_id
@@ -87,6 +93,7 @@ def get_people_list(sid):
     return people_list
 
 def get_msgs(uid,sid,pid):
+    '''Gets all the chats between user and seller for respective product'''
     user_msgs = SQLReadWrite.execute_query('''SELECT * FROM chats WHERE
             sender_id=%s AND recipient_id=%s AND product_id=%s AND is_user_d_sender=1''',
             (uid,sid,pid))
@@ -110,4 +117,3 @@ def get_msgs(uid,sid,pid):
         sorted_msgs=None
 
     return sorted_msgs
-    

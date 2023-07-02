@@ -1,3 +1,4 @@
+// Submits a form when message has been sent for chating
 function submitForm(pid, uid, uname=null) {
   var form = document.createElement('form');
   form.method = 'POST';
