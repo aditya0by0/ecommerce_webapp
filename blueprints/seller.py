@@ -162,12 +162,12 @@ def get_unique_filename(folder, filename):
 def get_best_seller_name():
     '''Get best seller'''
 	# Execute a query to retrieve the seller names
-    query = "SELECT sid, COUNT(*) AS orderCount FROM pycoders.user_history GROUP BY sid;"
+    query = "SELECT sid, COUNT(*) AS orderCount FROM user_history GROUP BY sid;"
     results = SQLReadWrite.execute_query(query)
     orderCount = (results[0]["orderCount"])
     orderSellerId = results[0]["sid"]
 
-    query = f"SELECT name FROM pycoders.sellers WHERE id={orderSellerId}"
+    query = f"SELECT name FROM sellers WHERE id={orderSellerId}"
     results = SQLReadWrite.execute_query(query)
     sellerName = results
     return sellerName

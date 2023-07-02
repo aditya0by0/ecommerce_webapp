@@ -66,7 +66,6 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (38,12,1);
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +91,7 @@ CREATE TABLE `chats` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `chats_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `products` (`pid`),
   CONSTRAINT `check_is_user` CHECK (((`is_user_d_sender` = 1) or (`is_user_d_sender` = 0)))
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +100,7 @@ CREATE TABLE `chats` (
 
 LOCK TABLES `chats` WRITE;
 /*!40000 ALTER TABLE `chats` DISABLE KEYS */;
-INSERT INTO `chats` VALUES (1,38,1,1,'Hi, I would like to know more about product','2023-06-26 15:58:35',0,1),(2,38,1,1,'Is the shirt made of cotton or wool ?','2023-06-26 16:10:48',0,1),(9,1,38,1,'Hi, sure will answer your queriess','2023-06-27 01:22:33',0,0),(10,1,38,1,'it is made out of cotton and not wool','2023-06-27 01:24:38',0,0),(11,38,1,2,'Hi, when will the product be available again?','2023-06-27 01:26:25',0,1),(12,1,38,2,'very soon! stay tuned :)','2023-06-27 01:27:13',0,0),(13,38,1,2,'Sure. Thanks','2023-06-27 16:58:59',0,1),(14,1,38,1,'Please feel free to contact me for any more info needed','2023-06-27 18:24:26',0,0),(15,1,38,1,'Thanks','2023-06-27 18:28:00',0,0),(16,1,38,1,'bye','2023-06-27 18:28:37',0,0),(17,1,38,2,'welcome','2023-06-27 18:28:50',0,0);
+INSERT INTO `chats` VALUES (1,38,1,1,'Hi, I would like to know more about product','2023-06-26 15:58:35',0,1),(2,38,1,1,'Is the shirt made of cotton or wool ?','2023-06-26 16:10:48',0,1),(9,1,38,1,'Hi, sure will answer your queriess','2023-06-27 01:22:33',0,0),(10,1,38,1,'it is made out of cotton and not wool','2023-06-27 01:24:38',0,0),(11,38,1,2,'Hi, when will the product be available again?','2023-06-27 01:26:25',0,1),(12,1,38,2,'very soon! stay tuned :)','2023-06-27 01:27:13',0,0),(13,38,1,2,'Sure. Thanks','2023-06-27 16:58:59',0,1),(14,1,38,1,'Please feel free to contact me for any more info needed','2023-06-27 18:24:26',0,0),(15,1,38,1,'Thanks','2023-06-27 18:28:00',0,0),(16,1,38,1,'bye','2023-06-27 18:28:37',0,0),(17,1,38,2,'welcome','2023-06-27 18:28:50',0,0),(18,38,1,4,'hi','2023-06-29 19:51:19',0,1),(19,1,38,4,'Hi','2023-06-29 19:51:56',0,0);
 /*!40000 ALTER TABLE `chats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +119,7 @@ CREATE TABLE `offer_history` (
   `offerPrice` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +128,7 @@ CREATE TABLE `offer_history` (
 
 LOCK TABLES `offer_history` WRITE;
 /*!40000 ALTER TABLE `offer_history` DISABLE KEYS */;
-INSERT INTO `offer_history` VALUES (10,6,1,'Seller',1),(11,6,1,'Seller',1),(12,6,1,'Seller',1),(13,6,1,'Seller',7),(14,1,1,'Seller',10),(15,6,1,'Seller',6),(16,6,1,'Seller',1),(17,6,1,'Seller',2),(18,6,1,'Seller',4.5),(19,6,1,'Seller',2),(20,7,1,'Seller',7);
+INSERT INTO `offer_history` VALUES (10,6,1,'Seller',1),(11,6,1,'Seller',1),(12,6,1,'Seller',1),(13,6,1,'Seller',7),(14,1,1,'Seller',10),(15,6,1,'Seller',6),(16,6,1,'Seller',1),(17,6,1,'Seller',2),(18,6,1,'Seller',4.5),(19,6,1,'Seller',2),(20,7,1,'Seller',7),(21,1,1,'Seller',1),(22,1,1,'Seller',1.9),(23,1,1,'Seller',1.02),(24,1,1,'Seller',1),(25,1,1,'Seller',1),(26,1,1,'Seller',1),(27,4,1,'Seller',1),(28,4,1,'Seller',1),(29,4,1,'Seller',1),(30,6,1,'Seller',5),(31,7,1,'Seller',10),(41,6,1,'Seller',5),(42,6,1,'Seller',5),(44,7,1,'Seller',10),(45,7,1,'Seller',10),(46,7,1,'Seller',10),(47,7,1,'Seller',10),(48,7,1,'Seller',10),(49,7,1,'Seller',10),(50,7,1,'Seller',10),(53,7,1,'Seller',10),(54,7,1,'Seller',10),(55,6,1,'Seller',5),(56,1,1,'Seller',1),(57,2,1,'Seller',1),(58,4,1,'Seller',1);
 /*!40000 ALTER TABLE `offer_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,9 +150,9 @@ CREATE TABLE `products` (
   `pdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `quantity` int NOT NULL DEFAULT '1',
   `pdescription` text NOT NULL,
+  `offerImg` text,
   PRIMARY KEY (`pid`),
-  CONSTRAINT `check_qty` CHECK ((`quantity` >= 0)),
-  CONSTRAINT `check_qty_sold` CHECK ((((`quantity` > 0) and (`sold` = _utf8mb4'0')) or ((`quantity` = 0) and (`sold` = _utf8mb4'1'))))
+  CONSTRAINT `check_qty` CHECK ((`quantity` >= 0))
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,9 +162,30 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Red T-shirt : Clipart',2.1,1.8,'0','tshirt','apparel-162192.png','2018-09-20 05:10:40',5,'Care Instructions: Machine Wash\nFit Type: Regular Fit\nOccasion : Casual\nFit : Regular Fit\nMaterial : 60% Cotton and 40% Polyester\nNeck : Crew Neck\nPattern : Solid'),(2,'Blue T-shirt : Clipart',2.3,1,'1','tshirt','apparel-162180.png','2018-10-20 05:10:40',0,'Care Instructions: Machine Wash\nFit Type: Regular Fit\nOccasion : Casual\nFit : Regular Fit\nMaterial : 60% Cotton and 40% Polyester\nNeck : Crew Neck\nPattern : Solid'),(3,'Plain Black T-shirt : Homemade',1.99,0.5,'0','tshirt','blank-g1c2f06939_1920.png','2020-03-10 06:10:40',2,'Fit Type: Regular Fit\nFabric: Cotton\nStyle: Regular\nNeck Style: Round Neck\nPattern: Striped\nSleeve Type: Half Sleeve'),(4,'Plain White T-shirt : Homemade',2,1.5,'0','tshirt','blank-g5a8301ddd_1920.png','2020-03-10 07:50:30',64,'Super combed Cotton Rich fabric\nRibbed round neck to prevent sagging\nRegular fit\nLabel free for all day comfort'),(5,'Plain Red T-shirt : Homemade',1.5,0,'0','tshirt','blank-gc67a9941c_1920.png','2019-07-10 05:10:40',1,'Care Instructions: Machine Wash\nFit Type: Regular Fit\nColor Name: Red\n100% Cotton\nMachine wash\nPlain\nHalf sleeve\nRound neck'),(6,'NIVIA Air Strike Football',10,2,'0','football','alphabet-word-images-1295331_1280.png','2019-07-10 05:10:40',49,'Foamed PVC Stitched\nBUTYL BLADDER\n32 Panel Universal Design\nHobby Playing Ball\nSuitable For Grassy Grounds\nRecommended For Under 12 Years Age Group'),(7,'Nivia Trainer Synthetic Football',20.28,7,'1','football','ball-306073_1280.png','2021-07-10 05:10:40',0,'Included Components : 1 Football | Color : White/Blue | Size : 5\nSuitable For: All Conditions | Ideal For: Training/Match\nMaterial : Rubber | Core/Bladder Material : Butyl | Construction Type: Hand Stitched | Number of Panel : 32| Waterproof: Yes\nSuitable for: Hard Ground without Grass, Wet & Grassy Ground, Artificail Turf\nMaterial: Rubberized Hand Stitched.'),(8,'Volatility Russia Hand Stich Football Size-05 (2022 New Multicolour A)',50.25,27.3,'1','football','football-157930.png','2023-05-10 05:10:40',0,'2022 Football with Pump Outdoor Football - Size: 5 2022 Trending Football\nStitching Type Hand Stitched\nThe Football Is Good For Training And Recreational Purposes. With High-Resolution Graphics. Suitable For All Age Groups.\nfootball full size-5'),(9,'Vector X Street Soccer Rubber Moulded Football, Size 5',35.25,0,'1','football','football-157931_1280.png','2022-05-10 05:10:40',0,'Rubberized moulded ball, Texture surface single piece rubber moulded 32 panel ball.\nExcellent for hard & rough surface\nHigh durability.\nExcels in all weather conditions.\nWeight – 400 – 450 gms, Circumference – 69.00 – 70.00 CM, Diameter – 22.00 Cm'),(10,'Vector X NEO Rubber Moulded Football, Size 5 (White-Red-Black)',30.25,0,'0','football','soccer-25768.png','2022-05-10 05:10:40',9,'Suitable for Hard Ground without Grass, Wet & Grassy Ground & Artificial Turf.\nSize- 5 Diameter : 219mm and Synthetic Rubber\nRubber Moulded with Weight : 410-450g\nSuperior thread hand Stitched ball Specially engineered shiny Surface .\nBalanced configuration for total ball control, low water uptake\nIdeal for : Training & Recreation use or specially for children under 16 Yrs age.'),(11,'ZAFEX Hand Stiched Multicolour Football Size 5 (White Russi)',25.13,0,'0','football','soccer-7647528_1280.png','2016-05-10 05:10:40',8,'Fine & Furnished Quality.\nPackage Content :1 Piece Football with 1 pump\nEnsures Good Performance.\nOur Moto Is Provide Better Quality To Our Customers.\nThe Ball Is Meant For Very Light Play And Not For Playing On Rough Ground.'),(12,'Lenovo E41-55',200.13,0,'1','laptop','laptop-1836990_1920.jpg','2020-12-10 06:10:40',0,'Lenovo E41-55 AMD 14-inch (35.56cm) HD Thin and Light Laptop\nProcessor:- AMD Athlon Pro A3050U\nConfiguration:- 8GB RAM/ 256 SSD\nOs:- Windows 11 HSL With Lifetime Validity\nIntegrated AMD Radeon Graphics'),(13,'HP 15s',333,0,'0','laptop','laptop-5673901_1920.jpg','2023-06-10 05:10:40',2,'Processor:Intel Core i3-1115G4(up to 4.1 GHz with Intel Turbo Boost Technology(2g), 6 MB L3 cache, 2 cores)|Memory: 8 GB DDR4-3200 MHz RAM (1 x 8 GB) Upto 16 GB DDR4-3200 MHz RAM (2 x 8 GB)| Storage: 1 TB 5400 rpm SATA HDD, 256 GB PCIe NVMe TLC M.2 SSD\nDisplay & Graphics : 39.6 cm (15.6\") diagonal, FHD, 250 nits, 141 ppi, 45%NTSC, Screen Resolution: 1920 x 1080|Graphics: Intel UHD Graphics\nOperating System & Preinstalled Software: Windows 11 Home 64 Plus Single Language | Microsoft Office Home & Student 2021| McAfee LiveSafe (30 days free trial as default) |Pre-installed Alexa built-in- Your life simplified with Alexa. Just ask Alexa to check your calendar, create to-do lists, shopping lists, play music, set reminders, get latest news and control smart home.\nPorts & Networking: 1 SuperSpeed USB Type-C 5Gbps signaling rate, 2 SuperSpeed USB Type-A 5Gbps signaling rate, 1 headphone/microphone combo, 1 AC smart pin, 1 HDMI 1.4b| Networking: Integrated 10/100/1000 GbE LAN, Realtek RTL8822CE 802.11a/b/g/n/ac (2x2) Wi-Fi and Bluetooth 5 combo\nOther Features: Webcam: HP TrueVision 720p HD Camera with Integrated dual array digital Microphones|Audio: Dual speakers|Keyboard: Full-size,jet black keyboard with numeric keypad,Touchpad with multi-touch gesture support| Battery: Support battery fast charge|'),(14,'Apple 2020 MacBook Air Laptop',500,0,'0','laptop','macbook-562499.png','2021-06-10 05:10:40',4,'All-Day Battery Life – Go longer than ever with up to 18 hours of battery life.\nPowerful Performance – Take on everything from professional-quality editing to action-packed gaming with ease. The Apple M1 chip with an 8-core CPU delivers up to 3.5x faster performance than the previous generation while using way less power.\nSuperfast Memory – 8GB of unified memory makes your entire system speedy and responsive. That way it can support tasks like memory-hogging multitab browsing and opening a huge graphic file quickly and easily.\nStunning Display – With a 13.3-inch/33.74 cm Retina display, images come alive with new levels of realism. Text is sharp and clear, and colors are more vibrant.\nWhy Mac – Easy to learn. Easy to set up. Astoundingly'),(15,'Apple 2023 MacBook Pro Laptop',800,0,'1','laptop','macbook-1999639_1920.png','2023-04-10 05:10:40',0,'Brand Apple\nModel Name MacBook Pro\nScreen Size  16 Inches\nColour Silver\nHard Disk Size  1000 GB\nCPU Model  Unknown\nRAM Memory Installed Size  32 GB\nOperating System Mac OS\nGraphics Card Description Integrated\nGraphics Coprocessor  Apple M2 Max');
+INSERT INTO `products` VALUES (1,'Red T-shirt : Clipart',2.1,1,'0','tshirt','apparel-162192.png','2018-09-20 05:10:40',4,'Care Instructions: Machine Wash\nFit Type: Regular Fit\nOccasion : Casual\nFit : Regular Fit\nMaterial : 60% Cotton and 40% Polyester\nNeck : Crew Neck\nPattern : Solid','50_per_1.png'),(2,'Blue T-shirt : Clipart',2.3,1,'1','tshirt','apparel-162180.png','2018-10-20 05:10:40',0,'Care Instructions: Machine Wash\nFit Type: Regular Fit\nOccasion : Casual\nFit : Regular Fit\nMaterial : 60% Cotton and 40% Polyester\nNeck : Crew Neck\nPattern : Solid','50_per_2.png'),(3,'Plain Black T-shirt : Homemade',1.99,0.5,'0','tshirt','blank-g1c2f06939_1920.png','2020-03-10 06:10:40',2,'Fit Type: Regular Fit\nFabric: Cotton\nStyle: Regular\nNeck Style: Round Neck\nPattern: Striped\nSleeve Type: Half Sleeve',NULL),(4,'Plain White T-shirt : Homemade',2,1,'0','tshirt','blank-g5a8301ddd_1920.png','2020-03-10 07:50:30',64,'Super combed Cotton Rich fabric\nRibbed round neck to prevent sagging\nRegular fit\nLabel free for all day comfort','50_per_3.png'),(5,'Plain Red T-shirt : Homemade',1.5,0,'0','tshirt','blank-gc67a9941c_1920.png','2019-07-10 05:10:40',1,'Care Instructions: Machine Wash\nFit Type: Regular Fit\nColor Name: Red\n100% Cotton\nMachine wash\nPlain\nHalf sleeve\nRound neck',NULL),(6,'NIVIA Air Strike Football',10,5,'0','football','alphabet-word-images-1295331_1280.png','2019-07-10 05:10:40',24,'Foamed PVC Stitched\nBUTYL BLADDER\n32 Panel Universal Design\nHobby Playing Ball\nSuitable For Grassy Grounds\nRecommended For Under 12 Years Age Group','50_per.png'),(7,'Nivia Trainer Synthetic Football',20.28,10,'1','football','ball-306073_1280.png','2021-07-10 05:10:40',0,'Included Components : 1 Football | Color : White/Blue | Size : 5\nSuitable For: All Conditions | Ideal For: Training/Match\nMaterial : Rubber | Core/Bladder Material : Butyl | Construction Type: Hand Stitched | Number of Panel : 32| Waterproof: Yes\nSuitable for: Hard Ground without Grass, Wet & Grassy Ground, Artificail Turf\nMaterial: Rubberized Hand Stitched.','50_per_6.png'),(8,'Volatility Russia Hand Stich Football Size-05 (2022 New Multicolour A)',50.25,27.3,'0','football','football-157930.png','2023-05-10 05:10:40',36,'2022 Football with Pump Outdoor Football - Size: 5 2022 Trending Football\nStitching Type Hand Stitched\nThe Football Is Good For Training And Recreational Purposes. With High-Resolution Graphics. Suitable For All Age Groups.\nfootball full size-5',NULL),(9,'Vector X Street Soccer Rubber Moulded Football, Size 5',35.25,0,'1','football','football-157931_1280.png','2022-05-10 05:10:40',0,'Rubberized moulded ball, Texture surface single piece rubber moulded 32 panel ball.\nExcellent for hard & rough surface\nHigh durability.\nExcels in all weather conditions.\nWeight – 400 – 450 gms, Circumference – 69.00 – 70.00 CM, Diameter – 22.00 Cm',NULL),(10,'Vector X NEO Rubber Moulded Football, Size 5 (White-Red-Black)',30.25,0,'0','football','soccer-25768.png','2022-05-10 05:10:40',9,'Suitable for Hard Ground without Grass, Wet & Grassy Ground & Artificial Turf.\nSize- 5 Diameter : 219mm and Synthetic Rubber\nRubber Moulded with Weight : 410-450g\nSuperior thread hand Stitched ball Specially engineered shiny Surface .\nBalanced configuration for total ball control, low water uptake\nIdeal for : Training & Recreation use or specially for children under 16 Yrs age.',NULL),(11,'ZAFEX Hand Stiched Multicolour Football Size 5 (White Russi)',25.13,0,'0','football','soccer-7647528_1280.png','2016-05-10 05:10:40',8,'Fine & Furnished Quality.\nPackage Content :1 Piece Football with 1 pump\nEnsures Good Performance.\nOur Moto Is Provide Better Quality To Our Customers.\nThe Ball Is Meant For Very Light Play And Not For Playing On Rough Ground.',NULL),(12,'Lenovo E41-55',200.13,0,'1','laptop','laptop-1836990_1920.jpg','2020-12-10 06:10:40',0,'Lenovo E41-55 AMD 14-inch (35.56cm) HD Thin and Light Laptop\nProcessor:- AMD Athlon Pro A3050U\nConfiguration:- 8GB RAM/ 256 SSD\nOs:- Windows 11 HSL With Lifetime Validity\nIntegrated AMD Radeon Graphics',NULL),(13,'HP 15s',333,0,'0','laptop','laptop-5673901_1920.jpg','2023-06-10 05:10:40',2,'Processor:Intel Core i3-1115G4(up to 4.1 GHz with Intel Turbo Boost Technology(2g), 6 MB L3 cache, 2 cores)|Memory: 8 GB DDR4-3200 MHz RAM (1 x 8 GB) Upto 16 GB DDR4-3200 MHz RAM (2 x 8 GB)| Storage: 1 TB 5400 rpm SATA HDD, 256 GB PCIe NVMe TLC M.2 SSD\nDisplay & Graphics : 39.6 cm (15.6\") diagonal, FHD, 250 nits, 141 ppi, 45%NTSC, Screen Resolution: 1920 x 1080|Graphics: Intel UHD Graphics\nOperating System & Preinstalled Software: Windows 11 Home 64 Plus Single Language | Microsoft Office Home & Student 2021| McAfee LiveSafe (30 days free trial as default) |Pre-installed Alexa built-in- Your life simplified with Alexa. Just ask Alexa to check your calendar, create to-do lists, shopping lists, play music, set reminders, get latest news and control smart home.\nPorts & Networking: 1 SuperSpeed USB Type-C 5Gbps signaling rate, 2 SuperSpeed USB Type-A 5Gbps signaling rate, 1 headphone/microphone combo, 1 AC smart pin, 1 HDMI 1.4b| Networking: Integrated 10/100/1000 GbE LAN, Realtek RTL8822CE 802.11a/b/g/n/ac (2x2) Wi-Fi and Bluetooth 5 combo\nOther Features: Webcam: HP TrueVision 720p HD Camera with Integrated dual array digital Microphones|Audio: Dual speakers|Keyboard: Full-size,jet black keyboard with numeric keypad,Touchpad with multi-touch gesture support| Battery: Support battery fast charge|',NULL),(14,'Apple 2020 MacBook Air Laptop',500,0,'0','laptop','macbook-562499.png','2021-06-10 05:10:40',4,'All-Day Battery Life – Go longer than ever with up to 18 hours of battery life.\nPowerful Performance – Take on everything from professional-quality editing to action-packed gaming with ease. The Apple M1 chip with an 8-core CPU delivers up to 3.5x faster performance than the previous generation while using way less power.\nSuperfast Memory – 8GB of unified memory makes your entire system speedy and responsive. That way it can support tasks like memory-hogging multitab browsing and opening a huge graphic file quickly and easily.\nStunning Display – With a 13.3-inch/33.74 cm Retina display, images come alive with new levels of realism. Text is sharp and clear, and colors are more vibrant.\nWhy Mac – Easy to learn. Easy to set up. Astoundingly',NULL),(15,'Apple 2023 MacBook Pro Laptop',800,0,'1','laptop','macbook-1999639_1920.png','2023-04-10 05:10:40',0,'Brand Apple\nModel Name MacBook Pro\nScreen Size  16 Inches\nColour Silver\nHard Disk Size  1000 GB\nCPU Model  Unknown\nRAM Memory Installed Size  32 GB\nOperating System Mac OS\nGraphics Card Description Integrated\nGraphics Coprocessor  Apple M2 Max',NULL);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `update_sold_trigger` BEFORE UPDATE ON `products` FOR EACH ROW BEGIN
+    IF NEW.quantity > 0 THEN
+        SET NEW.sold = '0';
+    ELSE
+        SET NEW.sold = '1';
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `products_sellers`
@@ -207,7 +227,7 @@ CREATE TABLE `ratings` (
   `pid` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,6 +236,7 @@ CREATE TABLE `ratings` (
 
 LOCK TABLES `ratings` WRITE;
 /*!40000 ALTER TABLE `ratings` DISABLE KEYS */;
+INSERT INTO `ratings` VALUES (1,'5','8'),(2,'5','1');
 /*!40000 ALTER TABLE `ratings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,7 +296,7 @@ CREATE TABLE `user_history` (
 
 LOCK TABLES `user_history` WRITE;
 /*!40000 ALTER TABLE `user_history` DISABLE KEYS */;
-INSERT INTO `user_history` VALUES (38,1,'2023-06-24 21:28:14',5,1),(38,6,'2023-06-24 21:20:51',1,1),(38,8,'2023-06-01 21:26:04',1,1),(38,8,'2023-06-02 15:09:41',4,1),(38,9,'2023-06-02 15:11:23',13,1),(38,12,'2023-06-24 21:28:14',2,1),(38,12,'2023-06-24 21:33:05',1,1),(38,13,'2023-06-24 21:31:33',2,1),(38,14,'2023-06-01 21:30:36',1,1),(39,15,'2023-06-01 21:30:36',1,2);
+INSERT INTO `user_history` VALUES (38,1,'2023-06-24 21:28:14',5,1),(38,1,'2023-07-01 15:39:17',1,1),(38,6,'2023-06-24 21:20:51',1,1),(38,6,'2023-07-01 17:14:12',1,1),(38,6,'2023-07-01 17:14:25',1,1),(38,6,'2023-07-01 17:21:01',1,1),(38,6,'2023-07-01 17:26:21',1,1),(38,6,'2023-07-01 17:34:32',1,1),(38,6,'2023-07-01 17:35:02',1,1),(38,6,'2023-07-01 17:39:46',1,1),(38,6,'2023-07-01 17:40:26',1,1),(38,6,'2023-07-01 17:41:11',1,1),(38,6,'2023-07-01 17:44:17',1,1),(38,6,'2023-07-01 17:55:15',1,1),(38,6,'2023-07-01 17:57:44',1,1),(38,6,'2023-07-01 18:08:37',1,1),(38,6,'2023-07-01 18:08:59',1,1),(38,6,'2023-07-01 18:09:54',1,1),(38,6,'2023-07-01 18:10:35',1,1),(38,6,'2023-07-01 18:11:31',1,1),(38,6,'2023-07-01 18:12:59',1,1),(38,6,'2023-07-01 18:16:04',1,1),(38,6,'2023-07-01 18:23:27',1,1),(38,6,'2023-07-01 18:23:53',1,1),(38,6,'2023-07-01 18:28:30',1,1),(38,6,'2023-07-01 18:28:55',1,1),(38,6,'2023-07-01 18:30:13',1,1),(38,6,'2023-07-01 18:30:55',1,1),(38,8,'2023-06-01 21:26:04',1,1),(38,8,'2023-06-02 15:09:41',4,1),(38,8,'2023-07-01 15:32:43',1,1),(38,8,'2023-07-01 15:39:17',1,1),(38,8,'2023-07-01 17:00:55',1,1),(38,8,'2023-07-01 17:02:37',1,1),(38,8,'2023-07-01 17:04:01',1,1),(38,8,'2023-07-01 17:04:38',1,1),(38,8,'2023-07-01 17:04:52',1,1),(38,8,'2023-07-01 17:07:18',1,1),(38,8,'2023-07-01 17:09:08',1,1),(38,8,'2023-07-01 17:09:40',1,1),(38,8,'2023-07-01 17:12:07',1,1),(38,8,'2023-07-01 17:13:39',1,1),(38,8,'2023-07-01 17:14:25',1,1),(38,8,'2023-07-01 18:30:55',1,1),(38,9,'2023-06-02 15:11:23',13,1),(38,12,'2023-06-24 21:28:14',2,1),(38,12,'2023-06-24 21:33:05',1,1),(38,13,'2023-06-24 21:31:33',2,1),(38,14,'2023-06-01 21:30:36',1,1),(39,15,'2023-06-01 21:30:36',1,2);
 /*!40000 ALTER TABLE `user_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-27 21:47:03
+-- Dump completed on 2023-07-02 23:24:51
