@@ -2,7 +2,7 @@ essential:-
 	- create account
 	- create offers (text only) - upload photo of offer
 	- buy product (mark as sold)
-	- 
+	- premium seller's products should be at the top
 
 necessary:-
 	- search for products
@@ -17,7 +17,7 @@ necessary:-
 		* price high to low
 		* customer satisfaction ratio
 		* newest arrivals
-
+	- database cleanup
 nice to have:- 
 	- awards for selling lot of products
 	- customer satisfaction ratio
@@ -25,3 +25,9 @@ nice to have:-
 	- dont show full information about the sellers prior to buying from them (like personal information)
 		* purchase sucessful page, purchase history
 	- high discount products should be at top (by default in the same product category/search)
+	- recommend products (normal recommedation) - either products from same category or products of the same seller (can be shown at purchase successful page)
+
+#-----------
+- add product
+- submit rating
+- add product name in offer hist

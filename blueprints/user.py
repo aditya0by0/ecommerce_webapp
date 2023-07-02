@@ -9,12 +9,14 @@ from flask import g
 
 from sqlalchemy.sql import text
 from datetime import datetime
+import random
 
 from daolayer.SQLReadWrite import SQLReadWrite
 from blueprints import auth
 
 bp = Blueprint("user", __name__, url_prefix="/user")
 
+# Authenticate User for all the Routes/Api available in this blueprint
 @bp.before_request
 def load_logged_in_user():
 	user_id = session.get("user_id")
@@ -32,6 +34,7 @@ def load_logged_in_user():
 			flash("Please, Login in with your user account")
 			return redirect(url_for("auth.login"))	
 
+# Route to User's Purchase History Page
 @bp.route('/history')
 def show_user_history():
 	uid = g.user['id']
@@ -41,28 +44,29 @@ def show_user_history():
 		JOIN products_sellers ps ON ps.pid=p.pid
 		JOIN sellers s ON s.id = ps.sid 
 		WHERE u.id =%s''', (uid,))
-	print(result[0])
 	return render_template("userHistory.html", products=result)
 
+# Delete a Product from the user cart
 @bp.route('/delete-cart-item/<int:pid>')
 def del_cart_item(pid:int):
 	uid = g.user['id']
 	SQLReadWrite.execute_query('''DELETE FROM cart WHERE id=%s 
 		AND pid=%s''', (uid, pid), True)
-	print(uid, pid)
 	return redirect(url_for("user.show_cart"))
 
+# Show user cart along the with products added to the cart
 @bp.route("/show-cart")
 def show_cart():
 	uid = g.user['id']
 	total = 0
-	result = SQLReadWrite.execute_query('''
-		SELECT * FROM products p INNER JOIN cart c 
-		ON p.pid = c.pid WHERE c.id=%s''', (uid,))
+	result = SQLReadWrite.execute_query('''SELECT * FROM products p 
+		INNER JOIN cart c ON p.pid = c.pid 
+		WHERE c.id=%s''', (uid,))
 	if result:
 		total = cal_total_cart(result)
 	return render_template("cart.html", products=result, total=total)
 
+# Buy all the items/products in the User's cart
 @bp.route("/buy-cart")
 def buy_user_cart():
 	uid = g.user['id']
@@ -83,6 +87,7 @@ def buy_user_cart():
 	with SQLReadWrite.engine.connect() as conn:
 		transaction = conn.begin()
 		try:
+			# Atomic operation to update quantity and user history
 			conn.execute(text(query_p), result)
 			# conn.execute(text(query_s), result) -- not working
 			for p in result : 
@@ -90,6 +95,7 @@ def buy_user_cart():
 				 p['p_quantity'] ))
 			conn.execute("DELETE FROM cart WHERE id = %s", (uid,))
 			transaction.commit()
+		
 		except Exception as e:
 			transaction.rollback()
 			flash(str(e))
@@ -98,9 +104,15 @@ def buy_user_cart():
 	p_quantities = [row['p_quantity'] for row in result]
 	total =  cal_total(result, p_quantities)
 
-	return render_template("bootstrap/productBought.html", purchases=result , 
-			p_quantities = p_quantities, total = total, zip=zip)
+	# Recommend a product based on a random product from list of all the purchased products 
+	product_ids = [row['pid'] for row in result]
+	random_product_id = random.choice(product_ids)
+	recommended_product = recommend_product(random_product_id, product_ids)
 
+	return render_template("bootstrap/productBought.html", purchases=result, 
+		p_quantities = p_quantities, total = total, zip=zip, rec_prod = recommended_product)
+
+# Submit the rating for the given product
 @bp.route("/submit-rating/<int:p_id>", methods=["POST"])
 def submit_rating(p_id:int):
 	rating = request.form["rating"]
@@ -108,13 +120,14 @@ def submit_rating(p_id:int):
 	flash("Thank you for rating the product!")
 	return redirect("/")
 
-# Route - for any buying or add to card user action
+# For buying a product OR adding it to cart
 @bp.route("/buy-add-product/<int:p_id>" , methods=['POST'])
 def buy_product(p_id:int):
 	action = request.form.get("action")
 	p_quantity = int(request.form["quantity"])
 	u_id = g.user['id']
-	# Buy Now - action Logic
+	
+	# Buying a product
 	if action == "buyNow":
 		with SQLReadWrite.engine.connect() as conn:
 			transaction = conn.begin()
@@ -130,32 +143,64 @@ def buy_product(p_id:int):
 				flash(str(e))
 				return redirect(url_for("get_product_page", p_id=p_id))
 
-		# Get the data for the purchased product for - Purchase Sucessful page
+		# Get the data for the product which user is about to purchase 
+		# needed for - Purchase Sucessful page
 		purchases = SQLReadWrite.execute_query('''SELECT p.*, s.name, s.email 
 			FROM products p 
 			INNER JOIN products_sellers ps ON ps.pid = p.pid
 			INNER JOIN sellers s ON s.id = ps.sid
 			WHERE p.pid = %s''',
 			(p_id,))
+		
+		# Calculation of the Total amount
 		total = cal_total(purchases, [p_quantity])
 
-		return render_template("bootstrap/productBought.html", purchases=purchases , 
-			p_quantities = [p_quantity], total = total, zip=zip) 
+		recommended_product = recommend_product(p_id, [p_id])
+
+		return render_template("bootstrap/productBought.html", purchases=purchases, 
+			p_quantities = [p_quantity], total = total, zip=zip, rec_prod = recommended_product) 
 	
-	# Add to Cart - action logic  
+	# Add the product to user cart
 	elif action == "a2c":
+		# Add to cart, if same product is added again update the quantity
 		SQLReadWrite.execute_query('''INSERT INTO cart (id, pid, p_quantity) 
 			VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE p_quantity = p_quantity + %s''', 
 			(u_id, p_id, p_quantity, p_quantity), True)
-		# if not get_flashed_messages():
-		flash("Product Sucessfully added to the cart")
 		
+		flash("Product Sucessfully added to the cart")
 		return redirect(url_for("get_product_page", p_id=p_id))
 	
 	else : 
 		return "Invalid Action"
 
+def recommend_product(pid, pids_list):
+	# Recommend a single product 
+
+	id_placeholders = ','.join(['%s'] * len(pids_list))
+	
+	# Get another random product from same category
+	category = SQLReadWrite.execute_query('''SELECT category FROM products 
+		WHERE pid = %s LIMIT 1''', (pid,))[0]['category']
+
+	result = SQLReadWrite.execute_query(f'''SELECT * FROM products 
+		WHERE pid NOT IN ({id_placeholders}) 
+		AND category = %s ORDER BY RAND() LIMIT 1''', pids_list + [category])
+
+	# If no another product exists from the same category, 
+	# get another random product from the seller of same product 
+	if result is None:
+		seller_id = SQLReadWrite.execute_query('''SELECT sid FROM products_sellers
+			WHERE pid = %s''', (pid,))[0]['sid']
+
+		result = SQLReadWrite.execute_query(f'''SELECT p.* FROM products p 
+			JOIN products_sellers ps ON ps.pid = p.pid
+		 	WHERE p.pid NOT IN ({id_placeholders}) AND sid = %s ORDER BY RAND() LIMIT 1''', 
+		 	pids_list + [seller_id])
+
+	return result
+
 def cal_total_cart(cart_products):
+	# Func - to calculate 'Total amount' for the products added to cart
 	total=0
 	for product in cart_products:
 		if product['offerPrice'] > 0.0 :

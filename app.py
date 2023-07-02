@@ -7,6 +7,8 @@ from flask import url_for
 from flask import flash
 from flask import session
 
+import os
+
 from daolayer.SQLReadWrite import SQLReadWrite
 from blueprints import auth, seller, user, chat
 
@@ -18,6 +20,12 @@ app.register_blueprint(chat.bp)
 
 app.secret_key = 'isee_project_ecomm'
 
+app_dir = os.path.dirname(os.path.abspath(__file__))  
+
+OFFERS_UPLOAD_FOLDER = os.path.join(app_dir, 'static', 'images', 'offers')
+app.config['OFFERS_UPLOAD_FOLDER'] = OFFERS_UPLOAD_FOLDER
+
+# Check if user is logged in OR seller, and assign the role
 @app.before_request
 def load_logged_in_user():
 	user_id = session.get("user_id")
@@ -37,6 +45,7 @@ def load_logged_in_user():
 			g.user = result[0]
 			g.user['role'] = 'Seller'
 
+# Give signed user as input parameter to every page 
 @app.context_processor
 def inject_user_name():
 	def get_user_name():
@@ -46,6 +55,7 @@ def inject_user_name():
 
 	return {'user_signed': get_user_name()}
 
+# Home Page
 @app.route("/", methods=['GET'])
 def get_home_page():
 	result = SQLReadWrite.execute_query('''SELECT p.* FROM products p
@@ -53,9 +63,9 @@ def get_home_page():
   		GROUP BY category)''')
 	return render_template("home.html", categories_p=result)
 
+# Get Product Page
 @app.route("/product/<int:p_id>")
 def get_product_page(p_id: int):
-	# result[0] : for single product as the page is designed for single product display
 	result = SQLReadWrite.execute_query('SELECT * from products where pid=%s', (p_id))
 	ratings = SQLReadWrite.execute_query('SELECT * from ratings WHERE pid=%s', (p_id))
 	finalRating = 0
@@ -69,6 +79,7 @@ def get_product_page(p_id: int):
 
 	return render_template("products/productDetails.html", product=result[0], rating=finalRating)
 
+# Get Searched products
 @app.route("/search", methods=['POST'])
 def search():
 	searched = request.form['searched'].lower()
@@ -81,6 +92,7 @@ def search():
 	result_dict = [dict(row) for row in result.all()]
 	return render_template('search.html', searched=searched , products = result_dict)
 
+# Product Categories Page
 @app.route("/category")
 @app.route("/category/<cname>")
 def show_categories(cname=None):
@@ -95,7 +107,7 @@ def show_categories(cname=None):
 	return render_template('categories.html', categories = result, 
 		products=products, c_name=cname)
 
-
+# Only for Testing - Please ignore 
 @app.route("/test")
 def test():
 	return render_template('bootstrap/productBought.html', zip=zip)

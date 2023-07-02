@@ -1,3 +1,4 @@
+// Validates the Inputs of the chat message
 var inputEle = document.getElementById("idInputTxt");
 var sendBtn = document.getElementById("sendBtn");
 

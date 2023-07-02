@@ -29,7 +29,13 @@
                 <hr class="dropdown-divider">
               </li>
               <li>
-               <span class="dropdown-item">Role : {{user_signed.role}}</span>
+                {%if user_signed.role == 'Seller'%}
+                <a href="/seller/basePage">
+                  <span class="dropdown-item">Role : {{user_signed.role}}</span>
+                </a>
+                {%else%}
+                  <span class="dropdown-item">Role : {{user_signed.role}}</span>
+                {%endif%}
               </li>                    
             </ul>
           </div>

@@ -18,7 +18,7 @@ from daolayer.SQLReadWrite import SQLReadWrite
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
-
+# Signup Route for user and seller
 @bp.route("/signup", methods=("GET", "POST"))
 def register():
     """Register a new user.
@@ -55,9 +55,10 @@ def register():
 
     return render_template("auth/signupPage.html")
 
+# Route to Login for seller and user
 @bp.route("/login", methods=("GET", "POST"))
 def login():
-    """Log in a registered user by adding the user id to the session."""
+    '''Validate and Login and have data inserted in session'''
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]

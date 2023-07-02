@@ -10,6 +10,7 @@ var validationError = document.getElementById('validationError');
 
 quantityInput.addEventListener('input', validateInputQuantity);
 
+// Validate Input Quantity
 function validateInputQuantity(e) {
   var inputValue = e.target.value;
 
@@ -25,16 +26,9 @@ function validateInputQuantity(e) {
 	    validationError.style.display = 'none';
   	}
   }
-
-  // if (inputValue > 10) {
-  //   validationError.style.display = 'block';
-  // } else {
-  //   validationError.style.display = 'none';
-  // }
-
-  
 }
 
+// Enable Chat with Seller button if user is signed in
 function get_user_signed_var(userSigned){
   if (userSigned){
     chatBtn.disabled = false;
