@@ -48,7 +48,10 @@ def show_seller_page():
 	else : 
 		grouped_data = None
 	seller_data = get_best_seller_name()
-	offer_history = get_offer_history()
+	offer_history = SQLReadWrite.execute_query('''SELECT oh.*, p.pName 
+        FROM offerHistory oh
+        JOIN products p ON p.pid = oh.pid
+        WHERE sid =%s ORDER BY id DESC LIMIT 20''',(sid,))
 	return render_template('seller/yourProducts.html', grouped_products=grouped_data,
 		grouped_sellers=seller_data, offer_history = offer_history)
 
@@ -85,8 +88,8 @@ def add_offered_price(pid:int):
             result = SQLReadWrite.execute_query("SELECT offerImg FROM products WHERE pid=%s", (pid,))
             if result:
                 d_filename =result[0]['offerImg']
-            conn.execute('''INSERT INTO offer_history (`pid`, `sid`, `editor`, `offerPrice`)
-                VALUES( %s, %s, "Seller", %s)''', (pid, sid, orgOfferPrice), put_op = True)
+            conn.execute('''INSERT INTO offerHistory (`pid`, `sid`, `offerPrice`)
+                VALUES( %s, %s, %s)''', (pid, sid, orgOfferPrice), put_op = True)
             conn.execute('''UPDATE products SET offerPrice = %s , offerImg = %s WHERE pid = %s''',
             	(offerPrice, u_filename, pid))
             delete_image(d_filename,'OFFERS_UPLOAD_FOLDER')
@@ -172,7 +175,7 @@ def get_best_seller_name():
     sellerName = results
     return sellerName
 
-def get_offer_history():
-	query = "SELECT * FROM offer_history ORDER BY id ASC LIMIT 20"
-	results = SQLReadWrite.execute_query(query)
-	return results
+# def get_offer_history():
+# 	query = "SELECT * FROM offer_history ORDER BY id ASC LIMIT 20"
+# 	results = SQLReadWrite.execute_query(query)
+# 	return results

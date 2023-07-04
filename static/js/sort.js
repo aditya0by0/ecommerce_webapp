@@ -1,3 +1,5 @@
+// Sorting for the Products based on given criteria
+
 // Event Delegation
 document.querySelector('.sort-list').addEventListener('click', function(e){
 	const target = e.target
@@ -12,25 +14,29 @@ function sort(sortBy){
 	const sortedItems = Array.from(gridItems).sort(function(a,b){
 		
 		if (sortBy == 'plh' || sortBy == 'phl'){
+			// Sort by the price of the product
 			const priceA = parseFloat(a.querySelector(".labelPrice").getAttribute('data-price'));
 			const priceB = parseFloat(b.querySelector(".labelPrice").getAttribute('data-price'));
 			switch (sortBy) {
-				case 'plh':
+				case 'plh': // Price Low to High
 					return priceA - priceB
 					break;
-				case 'phl':
+				case 'phl': // Price High to Low
 					return priceB - priceA
 					break;
 			}
 		}else if (sortBy =='nwa') {
-				const dateA = parseFloat(a.querySelector(".labelDate").getAttribute('data-date'));
-				const dateB = parseFloat(b.querySelector(".labelDate").getAttribute('data-date'));
-				return dateB - dateA;
+			// Sort by the date - new products at the top
+			const dateA = parseFloat(a.querySelector(".labelDate").getAttribute('data-date'));
+			const dateB = parseFloat(b.querySelector(".labelDate").getAttribute('data-date'));
+			return dateB - dateA;
 
+ 		}else if (sortBy == 'discount') {
+ 			// Sory by discount - High Discount at the Top
+ 			const priceA = parseInt(a.querySelector(".labelDiscount").getAttribute('data-discount'));
+			const priceB = parseInt(b.querySelector(".labelDiscount").getAttribute('data-discount'));
+			return priceB - priceA;
  		}
- 		// else if (condition) {
- 			
- 		// }
 	});
 
 	document.querySelector(".proGrid").append(...sortedItems);

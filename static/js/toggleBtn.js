@@ -1,6 +1,7 @@
-// Add click event to each button, the event sets current button as active 
-// and removes active class from the rest of the buttons
+// Toggle Code for different category buttons on Category Page
 
+// Add click event to each category button, the event sets current button as active 
+// and removes active class from the rest of the buttons
 var allCategoryBtns = document.querySelectorAll(".category-button");
 
 allCategoryBtns.forEach(function(button) {

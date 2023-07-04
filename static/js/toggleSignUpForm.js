@@ -1,4 +1,4 @@
-// to display business address input only if 'Login/Signup as Seller' 
+// To display business address input only if 'Login/Signup as Seller' 
 // checkbox is clicked 
 function toggleInputRequired() {
   var sellerCheckbox = document.getElementById("seller");

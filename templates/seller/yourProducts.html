@@ -47,28 +47,33 @@
     		{%endfor%}
  		</div>
  	</div>
-
-	 <table class="table table-dark">
-		<thead>
-		  <tr>
-			<th scope="col">#</th>
-			<th scope="col">Offer Price</th>
-			<th scope="col">Edited By</th>
-			<th scope="col">Product ID</th>
-		  </tr>
-		</thead>
-		<tbody>
-			{%for offer in offer_history%}
-		  <tr>
-			<th scope="row">{{offer.id}}</th>
-			<td>{{offer.offerPrice}}</td>
-			<td>{{offer.editor}}</td>
-			<td>{{offer.pid}}</td>
-		  </tr>
-		  {%endfor%}
-		</tbody>
+  <div style="overflow: auto; max-height: 400px;">
+    <table class="table table-dark">
+    	<thead style="position: sticky; top: 0; z-index:1;">
+    	  <tr>
+    		<th scope="col">#</th>
+    		<th scope="col">Offer Price</th>
+        <th scope="col">Timestamp</th>
+    		<th scope="col">Product Name</th>
+    	  </tr>
+    	</thead>
+  		<tbody>
+        {%if offer_history%}
+          {%for offer in offer_history%}
+    		  <tr>
+    			<th scope="row">{{offer.id}}</th>
+    			<td>{{offer.offerPrice}}</td>
+          <td>{{offer.timestamp}}</td>
+    			<td>
+    				<a href="/seller/viewProduct/product.pid">{{offer.pName}}
+    				</a>
+    			</td>
+    		  </tr>
+    		  {%endfor%}
+        {%endif%}
+  		</tbody>
 	  </table>
-
+  </div>
 
 {%endblock%}
 

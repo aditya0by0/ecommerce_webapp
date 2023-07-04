@@ -34,14 +34,12 @@ def load_logged_in_user():
 		g.user = None
 	else:
 		if role == 'User':
-			result = SQLReadWrite.execute_query("SELECT * FROM users WHERE id = %s",
-												(user_id,))
+			result = SQLReadWrite.execute_query("SELECT * FROM users WHERE id = %s", (user_id,))
 			g.user = result[0]
 			g.user['role'] = 'User'
 
 		elif role == 'Seller':
-			result = SQLReadWrite.execute_query("SELECT * FROM sellers WHERE id = %s",
-												(user_id,))
+			result = SQLReadWrite.execute_query("SELECT * FROM sellers WHERE id = %s", (user_id,))
 			g.user = result[0]
 			g.user['role'] = 'Seller'
 
@@ -85,9 +83,12 @@ def search():
 	searched = request.form['searched'].lower()
 
 	with SQLReadWrite.engine.connect() as conn:
-		result = conn.execute('''SELECT *, 
-			cast((( offerPrice / price ) * 100) as signed) as "discount" 
-			FROM products where pName LIKE %s order by discount DESC''',
+		result = conn.execute('''SELECT p.*, s.isPremium,
+			cast((( p.offerPrice / p.price ) * 100) as signed) as "discount" 
+			FROM products p
+			JOIN products_sellers ps ON ps.pid = p.pid
+			JOIN sellers s ON s.id = ps.sid
+			WHERE pName LIKE %s ORDER BY s.isPremium DESC, discount DESC''',
 			('%'+searched+'%',))
 	result_dict = [dict(row) for row in result.all()]
 	return render_template('search.html', searched=searched , products = result_dict)
@@ -98,9 +99,12 @@ def search():
 def show_categories(cname=None):
 	products = []
 	if cname is not None:
-		products = SQLReadWrite.execute_query('''SELECT *,
-			cast((( offerPrice / price ) * 100) as signed) as "discount" 
-			FROM products where category = %s order by discount DESC;''',
+		products = SQLReadWrite.execute_query('''SELECT p.*,s.isPremium,
+			cast((( p.offerPrice / p.price ) * 100) as signed) as "discount" 
+			FROM products p
+			JOIN products_sellers ps ON ps.pid = p.pid
+			JOIN sellers s ON s.id = ps.sid
+			WHERE category = %s ORDER BY s.isPremium DESC, discount DESC;''',
 			(cname,))
 	
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")

@@ -44,7 +44,7 @@ def show_user_history():
 		JOIN products_sellers ps ON ps.pid=p.pid
 		JOIN sellers s ON s.id = ps.sid 
 		WHERE u.id =%s''', (uid,))
-	return render_template("userHistory.html", products=result)
+	return render_template("/user/userHistory.html", products=result)
 
 # Delete a Product from the user cart
 @bp.route('/delete-cart-item/<int:pid>')
@@ -115,8 +115,13 @@ def buy_user_cart():
 # Submit the rating for the given product
 @bp.route("/submit-rating/<int:p_id>", methods=["POST"])
 def submit_rating(p_id:int):
+	uid = g.user['id']
+	if 'rating' not in request.form:
+		flash('No Rating Selected')
+		return redirect(url_for('user.show_user_history'))
 	rating = request.form["rating"]
-	SQLReadWrite.execute_query(f"INSERT INTO ratings (`rating`, `pid`) VALUES({rating}, {p_id})")
+	SQLReadWrite.execute_query('''INSERT INTO ratings (id, rating, pid) VALUES(%s, %s,%s)
+		ON DUPLICATE KEY UPDATE rating = %s''', (uid,rating, p_id, rating), True)
 	flash("Thank you for rating the product!")
 	return redirect("/")
 

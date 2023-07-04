@@ -29,5 +29,11 @@ nice to have:-
 
 #-----------
 - add product
-- submit rating
-- add product name in offer hist
+- submit rating - done 
+- add product name in offer hist  with discount - done
+- premium seller's products should be at the top - done 
+- small install guide
+- load env variables from .env file instead of os environ (try running from cmd)
+- scroll bar for offer history - done 
+- execute query within cursor 2 places ig
+- sort by discount and date - done 
