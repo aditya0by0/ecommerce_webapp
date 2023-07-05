@@ -22,8 +22,13 @@ app.secret_key = 'isee_project_ecomm'
 
 app_dir = os.path.dirname(os.path.abspath(__file__))  
 
+# Path to upload offer's images 
 OFFERS_UPLOAD_FOLDER = os.path.join(app_dir, 'static', 'images', 'offers')
 app.config['OFFERS_UPLOAD_FOLDER'] = OFFERS_UPLOAD_FOLDER
+
+# Path to upload product's image
+PRODUCTS_UPLOAD_FOLDER = os.path.join(app_dir, 'static', 'images', 'products')
+app.config['PRODUCTS_UPLOAD_FOLDER'] = PRODUCTS_UPLOAD_FOLDER
 
 # Check if user is logged in OR seller, and assign the role
 @app.before_request
@@ -90,6 +95,7 @@ def search():
 			JOIN sellers s ON s.id = ps.sid
 			WHERE pName LIKE %s ORDER BY s.isPremium DESC, discount DESC''',
 			('%'+searched+'%',))
+	
 	result_dict = [dict(row) for row in result.all()]
 	return render_template('search.html', searched=searched , products = result_dict)
 
@@ -114,7 +120,7 @@ def show_categories(cname=None):
 # Only for Testing - Please ignore 
 @app.route("/test")
 def test():
-	return render_template('bootstrap/productBought.html', zip=zip)
+	return render_template('seller/addProduct.html', zip=zip)
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", debug=True)

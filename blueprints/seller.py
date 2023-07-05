@@ -71,6 +71,7 @@ def seller_view_product(pid:int):
 
 	return render_template('seller/productPage.html', product=result[0], ratings=finalRating)
 
+# Routo to create/Edit an offer for a product along with offer Image
 @bp.route("/create-offer-price/<int:pid>", methods=['POST'])
 def add_offered_price(pid:int):
     sid = g.user['id']
@@ -78,25 +79,33 @@ def add_offered_price(pid:int):
     orgOfferPrice = request.form['offerPrice']
 
     query = '''UPDATE products SET offerImg = %(filename)s WHERE pid = %(pid)s'''
-    
-    # Transaction - 1. Uploads File,  2. Get File's name that is about to get deleted,
-    # 3.Update Offer History, 4.Update Offer in products Table, 5. Delete redundant file 
+    u_filename = None
+    config_name = 'OFFERS_UPLOAD_FOLDER'
+
+    # Transaction - To update/create offer along with the offer image
     with SQLReadWrite.engine.connect() as conn:
     	transaction = conn.begin()
     	try:
-            u_filename = upload_file(pid, 'OFFERS_UPLOAD_FOLDER')
-            result = SQLReadWrite.execute_query("SELECT offerImg FROM products WHERE pid=%s", (pid,))
+            # 1. Uploads offer's image File
+            u_filename = upload_file(config_name)
+            result = conn.execute("SELECT offerImg FROM products WHERE pid=%s", (pid,))
+            # 2. Get File's name that is about to get deleted
             if result:
-                d_filename =result[0]['offerImg']
+                result_dic = [dict(row) for row in result.all()]
+                d_filename =result_dic[0]['offerImg']
+            # 3. Update Offer History
             conn.execute('''INSERT INTO offerHistory (`pid`, `sid`, `offerPrice`)
                 VALUES( %s, %s, %s)''', (pid, sid, orgOfferPrice), put_op = True)
+            # 4. Update Offer in products Table
             conn.execute('''UPDATE products SET offerPrice = %s , offerImg = %s WHERE pid = %s''',
             	(offerPrice, u_filename, pid))
-            delete_image(d_filename,'OFFERS_UPLOAD_FOLDER')
+            # 5. Delete redundant file 
+            delete_image(d_filename, config_name)
             transaction.commit()
     	except Exception as e:
             transaction.rollback()
-            delete_image(u_filename,'OFFERS_UPLOAD_FOLDER')
+            if u_filename is not None :
+                delete_image(u_filename,'OFFERS_UPLOAD_FOLDER')
             flash(str(e))
             # raise e
 
@@ -114,7 +123,58 @@ def add_quantity(pid:int):
 		flash("Quantity Added!")
 	return redirect(url_for('seller.seller_view_product', pid = pid))
 
-def upload_file(pid,config_name):
+# Add new product 
+@bp.route("/add-product", methods=['POST', 'GET'])
+def add_new_product():
+    sid = g.user['id']
+    if request.method == 'GET':
+        category_list = SQLReadWrite.execute_query('''SELECT DISTINCT category FROM products''')
+        return render_template('seller/addProduct.html', category_l = category_list)
+
+    p_name = request.form['pname']
+    price = request.form['price']
+    if 'category' in request.form:
+        category = request.form['category']
+    elif 'new-category' in request.form:
+        category = request.form['new-category']
+    else:
+        flash('Select Category or enter new one')
+        return redirect(url_for('seller.add_new_product'))
+
+    quantity = int(request.form['quantity'])
+    is_sold = 0 if quantity>0 else 1
+    pDescription = request.form['pdescription']
+    u_filename = None
+    config_name = 'PRODUCTS_UPLOAD_FOLDER'
+
+    # Transaction - To add new product to database
+    with SQLReadWrite.engine.connect() as conn:
+        transaction = conn.begin()
+        try :
+            # 1. Uploads products image File
+            u_filename = upload_file(config_name)
+            # 2. Insert the product into the database
+            conn.execute('''INSERT INTO products (pname, price, category,sold,
+                quantity, pdescription, pCode) VALUES(%s, %s, %s, %s, %s, %s, %s)''',
+                (p_name, price, category, is_sold, quantity, pDescription, u_filename))
+            # 3. Retrieve the last inserted id (pid)
+            new_pid = conn.execute("SELECT LAST_INSERT_ID()").fetchone()[0]
+            # 4. INSERT product-seller relationship into database
+            conn.execute('''INSERT INTO products_sellers (pid, sid)
+                VALUES(%s, %s)''', (new_pid, sid))
+            transaction.commit()
+        except Exception as e:
+            transaction.rollback()
+            if u_filename is not None:
+                delete_image(u_filename,config_name)
+            flash(str(e))
+            # raise e
+            return redirect(url_for('seller.add_new_product'))
+    
+    flash("Product Added Successfully")
+    return redirect(url_for('seller.seller_view_product', pid=new_pid))
+
+def upload_file(config_name):
     '''Func to upload file in given folder'''
     if 'file' not in request.files:
         raise Exception('No file part in the request')
@@ -127,7 +187,7 @@ def upload_file(pid,config_name):
     if file:
         filename = secure_filename(file.filename)
         app = current_app._get_current_object()
-        filename = get_unique_filename(app.config['OFFERS_UPLOAD_FOLDER'], filename)
+        filename = get_unique_filename(app.config[config_name], filename)
         
         try:
             file.save(os.path.join(app.config[config_name], filename))
@@ -175,7 +235,3 @@ def get_best_seller_name():
     sellerName = results
     return sellerName
 
-# def get_offer_history():
-# 	query = "SELECT * FROM offer_history ORDER BY id ASC LIMIT 20"
-# 	results = SQLReadWrite.execute_query(query)
-# 	return results
