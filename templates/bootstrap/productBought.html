@@ -33,7 +33,7 @@
                     <h6 class="my-0">{{purchase.pName}}</h6>
                   </a>
                   <small class="text-body-secondary">{{purchase.category}}</small>
-                  <div class="text-body-secondary">Seller Name : {{purchase.name}}</div>
+                  <div class="text-body-secondary"><strong>Seller Name</strong> : {{purchase.name}}</div>
                 </div>
                 <div>
                   {%if purchase.offerPrice != 0.0%}
@@ -42,7 +42,7 @@
                     <h6 class="my-0">&euro;{{purchase.price}}</h6>
                   {%endif%}
                   <small class="text-body-secondary">Qty: {{quantity}}</small>
-                  <div class="text-body-secondary">Seller contact : {{purchase.email}}</div>
+                  <div class="text-body-secondary"><strong>Seller contact</strong> : {{purchase.email}}</div>
                 </div>
               </li>
             {%endfor%}

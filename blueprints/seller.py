@@ -49,7 +49,7 @@ def show_seller_page():
 		grouped_data = None
 	best_sellers = get_best_seller_name()
 	offer_history = SQLReadWrite.execute_query('''SELECT oh.*, p.pName,
-        cast((( oh.offerPrice / p.price ) * 100) as signed) as "discount" 
+        cast((( (p.price - oh.offerPrice) / p.price ) * 100) AS SIGNED) AS "discount" 
         FROM offerHistory oh
         JOIN products p ON p.pid = oh.pid
         WHERE sid =%s ORDER BY id DESC ''',(sid,))

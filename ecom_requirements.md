@@ -1,5 +1,8 @@
 <h1>Ecommerce Requirements - Pycoders</h1>
-
+<p> For User : Username : 'aditya0by0' password = '12345678'</p>
+<p>For Seller : Username : 'aditya0by0' password = '12345678' </p>
+<p>For all other users and Sellers, password is same i.e. '12345678' </p>
+</br>
 <h2>Essential Features:</h2>
 <ul>
   <li>Create an account</li>
@@ -40,6 +43,7 @@
     <li>Price high to low</li>
     <li>Highest Discount</li>
     <li>Newest arrivals</li>
+    <p><strong>**Default Sorting is by Highest Discount as per Requirement</p></strong>
   </ul>
   <p>Search Product/View Product Categories&rarr; Sort products using Sort by on top right </p>
   <li>Database cleanup</li>
@@ -53,7 +57,7 @@
 
   <li>Customer satisfaction ratio</li>
   <p>View a Product&rarr; See ratings</p>
-  <p>Login as Seller&rarr; Go to user history by clicking on username &rarr; Rate a product</p>
+  <p>Login as User&rarr; Go to user history by clicking on username &rarr; Rate a product</p>
 
   <li>Restrict full seller information prior to purchase</li>
   <p>Buy a product from cart or just Buy single product&rarr; On Purchase successful page (Only after buying) You can see Seller information</p>
@@ -62,6 +66,6 @@
   <p>Search Product/View Product Categories</p>
 
   <li>Recommend products (based on category or seller) at purchase successful page</li>
-  <p>Buy a product from cart or just Buy single product&rarr; On Purchase successful page &rarr; See the Recommended Product</p>
+  <p>Buy a product from cart or just Buy single product&rarr; On Purchase successful page &rarr; See the Recommended Product below</p>
 </ul>
 
