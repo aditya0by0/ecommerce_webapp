@@ -42,19 +42,23 @@
     {%endif%}
 
  	<div class="container px-4 py-5" id="custom-cards">
-	    	<h2 class="pb-2 border-bottom">Best Seller of the Month</h2>
+	    	<h2 class="pb-2 border-bottom">Best Sellers</h2>
     	<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-		    {%for seller in grouped_sellers%}
+		    {% set top_count = 0 %}
+		    {%for seller in best_sellers%}
+		    	{% set top_count = loop.index %}
     			{%include 'seller/sellerCard.html'%}
     		{%endfor%}
  		</div>
  	</div>
   <div style="overflow: auto; max-height: 400px;">
     <table class="table table-dark">
+    	<h3>Offer History</h3>
     	<thead style="position: sticky; top: 0; z-index:1;">
     	  <tr>
     		<th scope="col">#</th>
     		<th scope="col">Offer Price</th>
+    		<th scope="col">Discount</th>
         <th scope="col">Timestamp</th>
     		<th scope="col">Product Name</th>
     	  </tr>
@@ -65,9 +69,10 @@
     		  <tr>
     			<th scope="row">{{offer.id}}</th>
     			<td>{{offer.offerPrice}}</td>
+    			<td>{{offer.discount}}%</td>
           <td>{{offer.timestamp}}</td>
     			<td>
-    				<a href="/seller/viewProduct/product.pid">{{offer.pName}}
+    				<a href="/seller/viewProduct/{{offer.pid}}">{{offer.pName}}
     				</a>
     			</td>
     		  </tr>

@@ -93,7 +93,7 @@ def search():
 			FROM products p
 			JOIN products_sellers ps ON ps.pid = p.pid
 			JOIN sellers s ON s.id = ps.sid
-			WHERE pName LIKE %s ORDER BY s.isPremium DESC, discount DESC''',
+			WHERE pName LIKE %s ORDER BY discount DESC''',
 			('%'+searched+'%',))
 	
 	result_dict = [dict(row) for row in result.all()]
@@ -110,7 +110,7 @@ def show_categories(cname=None):
 			FROM products p
 			JOIN products_sellers ps ON ps.pid = p.pid
 			JOIN sellers s ON s.id = ps.sid
-			WHERE category = %s ORDER BY s.isPremium DESC, discount DESC;''',
+			WHERE category = %s ORDER BY discount DESC;''',
 			(cname,))
 	
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")

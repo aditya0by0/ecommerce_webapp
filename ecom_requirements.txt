@@ -28,7 +28,5 @@ nice to have:-
 	- recommend products (normal recommedation) - either products from same category or products of the same seller (can be shown at purchase successful page)
 
 #-----------
-- add product
 - small install guide
-- load env variables from .env file instead of os environ (try running from cmd)
-- execute query within cursor 2 places ig
+	- awards for selling lot of products

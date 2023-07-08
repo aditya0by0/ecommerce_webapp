@@ -40,7 +40,7 @@ function validateInputPrice(e) {
   }
 
   var priceElement = document.querySelector('p[data-price]');
-  var dataPrice = parseInt(priceElement.getAttribute('data-price'));
+  var dataPrice = parseFloat(priceElement.getAttribute('data-price'));
   var offerPrice = dataPrice - ((dataPrice * inputValue) / 100);
   document.getElementById("offerPriceInt").innerText =  offerPrice;
 }

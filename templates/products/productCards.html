@@ -24,10 +24,10 @@
     <div class="labelDate" data-date="{{product.pdate}}"></div>
     <div style="text-align: right;">{{product.pdate}}</div>
     {% if product.isPremium == 1 %}
-        <div style="text-align: right;"><strong>Premium Seller</strong></div>
+        <div class="isPremiumSeller" style="text-align: right;"><strong>Premium Seller</strong></div>
     {%endif%}
     {%if product.rating%}
-        <div>Rating: {{product.rating}}</div>
+        <div >Rating: {{product.rating}}</div>
     {%endif%}
 </div>
 

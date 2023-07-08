@@ -47,13 +47,14 @@ def show_seller_page():
 		grouped_data = groupby(sorted_data, key=lambda x: x['category'])
 	else : 
 		grouped_data = None
-	seller_data = get_best_seller_name()
-	offer_history = SQLReadWrite.execute_query('''SELECT oh.*, p.pName 
+	best_sellers = get_best_seller_name()
+	offer_history = SQLReadWrite.execute_query('''SELECT oh.*, p.pName,
+        cast((( oh.offerPrice / p.price ) * 100) as signed) as "discount" 
         FROM offerHistory oh
         JOIN products p ON p.pid = oh.pid
-        WHERE sid =%s ORDER BY id DESC LIMIT 20''',(sid,))
+        WHERE sid =%s ORDER BY id DESC ''',(sid,))
 	return render_template('seller/yourProducts.html', grouped_products=grouped_data,
-		grouped_sellers=seller_data, offer_history = offer_history)
+		best_sellers=best_sellers, offer_history = offer_history)
 
 # View Product from Seller's Perspective
 @bp.route("/viewProduct/<int:pid>")
@@ -142,7 +143,7 @@ def add_new_product():
         return redirect(url_for('seller.add_new_product'))
 
     quantity = int(request.form['quantity'])
-    is_sold = 0 if quantity>0 else 1
+    is_sold = '0' if quantity>0 else '1'
     pDescription = request.form['pdescription']
     u_filename = None
     config_name = 'PRODUCTS_UPLOAD_FOLDER'
@@ -224,14 +225,15 @@ def get_unique_filename(folder, filename):
 
 def get_best_seller_name():
     '''Get best seller'''
-	# Execute a query to retrieve the seller names
-    query = "SELECT sid, COUNT(*) AS orderCount FROM user_history GROUP BY sid;"
-    results = SQLReadWrite.execute_query(query)
-    orderCount = (results[0]["orderCount"])
-    orderSellerId = results[0]["sid"]
-
-    query = f"SELECT name FROM sellers WHERE id={orderSellerId}"
-    results = SQLReadWrite.execute_query(query)
-    sellerName = results
-    return sellerName
+	
+    # Select Top 3 Best sellers
+    # A best seller is one who had orders more than 50
+    query = '''SELECT s.name
+        FROM user_history uh
+        JOIN sellers s ON s.id = uh.sid
+        GROUP BY sid HAVING COUNT(*) > 50  
+        ORDER BY COUNT(*) DESC LIMIT 3'''
+    result = SQLReadWrite.execute_query(query)
+    
+    return result
 
