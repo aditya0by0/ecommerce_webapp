@@ -120,7 +120,7 @@ def show_categories(cname=None):
 # Only for Testing - Please ignore 
 @app.route("/test")
 def test():
-	return render_template('seller/addProduct.html', zip=zip)
+	return render_template('../ecom_requirments.html', zip=zip)
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", debug=True)
