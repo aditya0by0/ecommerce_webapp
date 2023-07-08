@@ -11,9 +11,11 @@
 	      <h1>Your Products</h1>
 	    </div>
 	    <div class="col-3 text-center">
-	      <button class="btn btn-lg rounded-3 btn-primary" type="submit" style="position: absolute; right: 0;">
-	      	Add Product
-	      </button>
+	      <a href="/seller/add-product">
+		      <button class="btn btn-lg rounded-3 btn-primary" type="submit" style="position: absolute; right: 0;">
+		      	Add Product
+		      </button>
+	      </a>
 	      <a href="/chat/sellerChatPage">
 	      	<button class="btn btn-lg rounded-3 btn-primary"
 	      	style="position: absolute; left: 0;">
@@ -40,35 +42,45 @@
     {%endif%}
 
  	<div class="container px-4 py-5" id="custom-cards">
-	    	<h2 class="pb-2 border-bottom">Best Seller of the Month</h2>
+	    	<h2 class="pb-2 border-bottom">Best Sellers</h2>
     	<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-		    {%for seller in grouped_sellers%}
+		    {% set top_count = 0 %}
+		    {%for seller in best_sellers%}
+		    	{% set top_count = loop.index %}
     			{%include 'seller/sellerCard.html'%}
     		{%endfor%}
  		</div>
  	</div>
-
-	 <table class="table table-dark">
-		<thead>
-		  <tr>
-			<th scope="col">#</th>
-			<th scope="col">Offer Price</th>
-			<th scope="col">Edited By</th>
-			<th scope="col">Product ID</th>
-		  </tr>
-		</thead>
-		<tbody>
-			{%for offer in offer_history%}
-		  <tr>
-			<th scope="row">{{offer.id}}</th>
-			<td>{{offer.offerPrice}}</td>
-			<td>{{offer.editor}}</td>
-			<td>{{offer.pid}}</td>
-		  </tr>
-		  {%endfor%}
-		</tbody>
+  <div style="overflow: auto; max-height: 400px;">
+    <table class="table table-dark">
+    	<h3>Offer History</h3>
+    	<thead style="position: sticky; top: 0; z-index:1;">
+    	  <tr>
+    		<th scope="col">#</th>
+    		<th scope="col">Offer Price</th>
+    		<th scope="col">Discount</th>
+        <th scope="col">Timestamp</th>
+    		<th scope="col">Product Name</th>
+    	  </tr>
+    	</thead>
+  		<tbody>
+        {%if offer_history%}
+          {%for offer in offer_history%}
+    		  <tr>
+    			<th scope="row">{{offer.id}}</th>
+    			<td>{{offer.offerPrice}}</td>
+    			<td>{{offer.discount}}%</td>
+          <td>{{offer.timestamp}}</td>
+    			<td>
+    				<a href="/seller/viewProduct/{{offer.pid}}">{{offer.pName}}
+    				</a>
+    			</td>
+    		  </tr>
+    		  {%endfor%}
+        {%endif%}
+  		</tbody>
 	  </table>
-
+  </div>
 
 {%endblock%}
 

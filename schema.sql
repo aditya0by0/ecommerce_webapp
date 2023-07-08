@@ -69,7 +69,8 @@ create table sellers (
   username varchar(15) unique not null,
   password text not null,
   email varchar(100) not null,
-  address text not null
+  address text not null,
+  isPremium int not null default 0
 );
 
 
@@ -127,3 +128,26 @@ create table chats (
     CONSTRAINT check_is_user CHECK(is_user_d_sender = 1 or is_user_d_sender = 0)
 );
 
+--  user can rate one product with only one rating
+-- if we submits another rating previous rating will be removed 
+-- and new one is recorded,
+-- this is done to prevent influence of rating of products by single user
+CREATE TABLE ratings (
+  id int NOT NULL ,
+  rating int DEFAULT NULL,
+  pid int not null,
+  PRIMARY KEY (id, pid),
+  foreign key (id) references users(id),
+  foreign key (pid) references products(pid)
+) 
+
+CREATE TABLE offer_history (
+  id int NOT NULL AUTO_INCREMENT,
+  pid int NOT NULL,
+  sid int NOT NULL,
+  offerPrice float DEFAULT NULL,
+  timestamp datetime default current_timestamp,
+  PRIMARY KEY (id),
+  foreign key (pid) references products(pid),
+  foreign key (sid) references sellers(id)
+) 

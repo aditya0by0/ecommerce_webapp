@@ -12,15 +12,23 @@
         <div class="labediscountPrice" data-price="{{product.offerPrice}}">
             <small class="text-body-secondary">&euro;{{product.offerPrice}}</small>
         </div>
-        <div class="discount" data-price="{{product.discount}}">
+        <div class="labelDiscount" data-discount="{{product.discount}}">
             <small class="text-body-secondary"><span style="color: red;">{{product.discount}}% DISCOUNT</span></small>
         </div>
     {% else %}
         <div class="labelPrice" data-price="{{product.price}}">
             <small class="text-body-secondary">&euro;{{product.price}}</small>
         </div>
+        <div class="labelDiscount" data-discount="0"></div>
     {% endif %}
     <div class="labelDate" data-date="{{product.pdate}}"></div>
+    <div style="text-align: right;">{{product.pdate}}</div>
+    {% if product.isPremium == 1 %}
+        <div class="isPremiumSeller" style="text-align: right;"><strong>Premium Seller</strong></div>
+    {%endif%}
+    {%if product.rating%}
+        <div >Rating: {{product.rating}}</div>
+    {%endif%}
 </div>
 
 

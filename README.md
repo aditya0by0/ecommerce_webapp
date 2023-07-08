@@ -1,4 +1,17 @@
-# ISEE Ecommerce Project - Pycoders Team
+# Small Installation Guide
+1. Pull the code from gitlab
+2. Install the dependencies mentioned in [requirements.txt](/requirements.txt) file available in the repo
+3. Import the data from [database dump](/Database_Dumps/pycoders_self_contained_dump.sql) in your MYSQL database
+4. Set the environment variables
+    - MYSQL_USERNAME = {your_mysql_database_username}
+    - MYSQL_PASSWORD = {your_mysql_database_password}
+    - MYSQL_DB = {mysql_database_name (which is 'pycoders' in our case)}
+    - See the [Dao layer File](/daolayer/SQLReadWrite.py) for understanding, You can hardcode the above values in this file in class variables in worst case scenario 
+5. Start the server
+6. Check [Ecommerce Requirements File](/ecom_requirements.md) for navigation info of each requirement
+7. If Something is not working or need more Info on how to test/use a feature, Please feel free to contact Us.
+
+# Sprints : ISEE Ecommerce Project - Pycoders Team
 Week 1 - Commit 1 
 <br/>Implemented
 Frontend layout
@@ -59,6 +72,8 @@ Rest of the Weeks
 - Best seller
 - Default sorting criteria as discount
 - Bug Fixes
+- Premium Product at top for same values in sorting
+- Requirements MD file navigation guide
 
 ## Getting started
 

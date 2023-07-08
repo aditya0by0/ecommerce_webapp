@@ -4,7 +4,7 @@
 	  <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
 	  	{%if products%}
 		    <div class="row g-5 d-flex justify-content-center align-items-center mb-3">
-		      <div class="col-md-6 col-lg-6 order-md-last">
+		      <div class="col-md-9 col-lg-9 order-md-last">
 		        <h4 class="d-flex justify-content-between align-items-center mb-3">
 		          <span style="color:black;">Your History</span>
 		        </h4>
@@ -23,6 +23,7 @@
 		                  <small class="text-body-secondary">{{product.date_}}</small>
 		                  <div class="text-body-secondary">Seller contact : {{product.email}}</div>
 		              </div>
+		              <div>{%include 'user/submitRating.html'%}</div>
 		            </li>
 		          {%endfor%}
 		        </ul>
@@ -35,3 +36,7 @@
 	  </div>
 	</div>
 {%endblock%}
+
+{% block js%}
+	<!-- <script src="/static/js/submitRatingValidation.js"></script> -->
+{% endblock%}
