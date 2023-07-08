@@ -5,7 +5,7 @@
 
 <div class="card-body">
     <p class="card-text">{{product.pName}}</p>
-    {% if product.discount != 0 %}
+    {% if product.offerPrice%}
         <div class="labelPrice" data-price="{{product.offerPrice}}">
             <small class="text-body-secondary"><s>&euro;{{product.price}}</s></small>
         </div>
