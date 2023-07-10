@@ -112,7 +112,6 @@ def show_categories(cname=None):
 			JOIN sellers s ON s.id = ps.sid
 			WHERE category = %s ORDER BY discount DESC;''',
 			(cname,))
-		print(products)
 	result = SQLReadWrite.execute_query("SELECT distinct category from products")
 	return render_template('categories.html', categories = result, 
 		products=products, c_name=cname)
